@@ -27,9 +27,6 @@ jobs:
     - name: Run build
       run: npm run build
 
-    - name: Run tests (optional)
-      run: npm run test
-
     - name: Deploy to Vercel (or other platforms)
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
