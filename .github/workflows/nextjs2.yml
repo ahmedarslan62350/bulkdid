@@ -7,7 +7,8 @@ on:
   pull_request:
     branches:
       - main
-
+env:  # Global environment variables for the entire workflow
+  MONGODB_URI: 'mongodb://localhost:27017/CallerId-Status-Checker'
 jobs:
   build:
     runs-on: ubuntu-latest
