@@ -1,6 +1,12 @@
 import { LegendProps } from "recharts";
 
-export const CustomLegend = (data:Partial<LegendProps>) => {
+
+interface CustomLegendProps extends LegendProps {
+  legendIndex?: number;  
+  legend?: string; 
+}
+
+export const CustomLegend = (data:CustomLegendProps) => {
   if (data) {
     return (
       <div className="w-full h-full text-center">
