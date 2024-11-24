@@ -1,28 +1,42 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noImplicitAny": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
+    "target": "ES2017",                               // ES2017 is fine for most cases, but if you're using modern features (like async/await), ES2018 or higher might be a better choice
+    "lib": ["dom", "dom.iterable", "esnext"],         // Keeps the lib settings fine for Next.js and modern features
+    "allowJs": true,                                  // Allows JavaScript files, useful for Next.js with both TS and JS code
+    "skipLibCheck": true,                             // Skips type checking of declaration files for performance
+    "strict": true,                                   // Enables all strict type-checking options
+    "noImplicitAny": true,                            // Ensures no variable can have an implicit `any` type
+    "noEmit": true,                                   // No output files are generated (useful when only type-checking)
+    "esModuleInterop": true,                          // Ensures compatibility between CommonJS and ES module syntax
+    "module": "esnext",                               // Use "esnext" for better tree-shaking in bundlers (like Webpack)
+    "moduleResolution": "node",                       // "node" works best with package resolution for dependencies
+    "resolveJsonModule": true,                        // Allows importing JSON files as modules
+    "isolatedModules": true,                          // Ensures that each file can be transpiled independently
+    "jsx": "preserve",                                // Keeps JSX as-is for Next.js to process later
+    "incremental": true,                              // Enables incremental compilation for faster builds
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": ["./src/*"]                              // Defines path aliases, useful for cleaner imports
+    },
+    "noUnusedLocals": true,                           // Detect unused local variables
+    "noUnusedParameters": true,                       // Detect unused parameters in functions
+    "noFallthroughCasesInSwitch": true,               // Prevents fall-through behavior in switch cases
+    "forceConsistentCasingInFileNames": true,         // Ensures consistent file name casing in imports
+    "strictPropertyInitialization": true,             // Enforces property initialization in classes
+    "skipDefaultLibCheck": true                       // Skips type checking for the default library files (improves performance)
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/utils/global.d.ts"],
-  "exclude": ["node_modules" ]
+  "include": [
+    "next-env.d.ts",                                  // Ensure next.js types are included
+    "**/*.ts",                                        // Include all TypeScript files
+    "**/*.tsx",                                       // Include all TypeScript JSX files
+    ".next/types/**/*.ts",                            // Include Next.js specific type definitions
+    "src/utils/global.d.ts"                           // Include your global declarations file
+  ],
+  "exclude": [
+    "node_modules"                                    // Exclude node_modules folder
+  ]
 }

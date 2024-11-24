@@ -12,7 +12,7 @@ export async function GET() {
     const dbStats = await db.stats();
     const replSetStatus = await admin
       .command({ replSetGetStatus: 1 })
-      .catch(() => null); 
+      .catch(() => null);
 
     return NextResponse.json({
       name: "Main Database",
@@ -66,10 +66,7 @@ export async function GET() {
         journaledWrites: serverStatus.dur ? serverStatus.dur.journaled : "N/A",
       },
     });
-  } catch (error:any) {
-    return NextResponse.json(
-      { error: "Failed to fetch database info", message: error.message },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
   }
 }
