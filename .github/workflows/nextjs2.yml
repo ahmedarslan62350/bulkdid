@@ -1,0 +1,37 @@
+name: Next.js Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'  # Specify your Node.js version
+
+    - name: Install dependencies
+      run: npm install --force
+
+    - name: Run build
+      run: npm run build
+
+    - name: Run tests (optional)
+      run: npm run test
+
+    - name: Deploy to Vercel (or other platforms)
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      run: |
+        npm install -g vercel
+        vercel --prod --token $VERCEL_TOKEN
