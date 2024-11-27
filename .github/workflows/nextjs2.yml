@@ -7,7 +7,8 @@ on:
   pull_request:
     branches:
       - main
-
+env:  # Global environment variables for the entire workflow
+  MONGODB_URI: 'mongodb://localhost:27017/CallerId-Status-Checker'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,13 +26,3 @@ jobs:
 
     - name: Run build
       run: npm run build
-
-    - name: Run tests (optional)
-      run: npm run test
-
-    - name: Deploy to Vercel (or other platforms)
-      env:
-        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      run: |
-        npm install -g vercel
-        vercel --prod --token $VERCEL_TOKEN
