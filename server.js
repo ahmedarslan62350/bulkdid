@@ -5,7 +5,7 @@ const path = require("path");
 const fs = require("fs");
 const readline = require("readline");
 
-const dev = process.env.NODE_ENV !== "development";
+const dev = process.env.NODE_ENV === "development";
 const hostname = "localhost";
 const port = 3000;
 

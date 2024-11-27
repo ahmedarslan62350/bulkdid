@@ -17,7 +17,9 @@ io.on("connection", (socket) => {
     executeCommand(command, socket);
   });
   socket.on("changeTerminal", ({ terminal }) => {
+    console.log("Changing the terminal" + terminal);
     terminalProcess?.kill("SIGINT");
+    console.log("Killed the terminal");
     terminalProcess = null;
     startTerminalSession(socket, terminal);
   });
@@ -27,29 +29,35 @@ io.on("connection", (socket) => {
   });
 });
 
-function startTerminalSession(socket: Socket, terminal: string) {
-  terminalProcess = spawn(terminal, {
-    cwd: process.cwd(),
-    shell: true,
-  }) as ChildProcess;
-  terminalProcess.stderr?.on("data", (data: Buffer) => {
-    const output = data.toString();
-    socket.emit("command_output", { output });
-  });
-
-  terminalProcess.stdout?.on("data", (data: Buffer) => {
-    const output = data.toString();
-    output.split("\n").forEach((line: string) => {
-      if (line === "") {
-        return;
-      } else {
-        socket.emit("command_output", { output: line });
-      }
+async function startTerminalSession(socket: Socket, terminal: string) {
+  try {
+    terminalProcess = await spawn(terminal, {
+      cwd: process.cwd(),
+      shell: false,
+    }) as ChildProcess;
+    terminalProcess.stderr?.on("data", (data: Buffer) => {
+      console.log("Starting a new error");
+      const output = data.toString();
+      socket.emit("command_output", { output });
     });
-  });
+    
+    terminalProcess.stdout?.on("data", (data: Buffer) => {
+      console.log("Starting a new terminal started");
+      const output = data.toString();
+      output.split("\n").forEach((line: string) => {
+        if (line === "") {
+          return;
+        } else {
+          socket.emit("command_output", { output: line });
+        }
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function executeCommand(command: string, socket: any) {
+function executeCommand(command: string, socket: Socket) {
   if (terminalProcess) {
     terminalProcess.stdin?.write(`${command}\n`);
   } else {

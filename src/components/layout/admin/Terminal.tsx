@@ -39,7 +39,7 @@ export default function Terminal() {
       socket.off("command_output");
       socket.off("connect");
     };
-  }, [terminal]);
+  }, []);
 
   const handleCommandSubmit = (command: string) => {
     if (command.trim() !== "") {

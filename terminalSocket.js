@@ -10,11 +10,11 @@ const io = new socket.Server(server, {
   },
 });
 
-if (process.env.isTerminalSocketRunning) {
+if (process.env.isTerminalSocketRunning === "true") {
   console.log("Socket.IO server is already running");
 } else {
   server.listen(3005, () => {
-    process.env.isTerminalSocketRunning = true;
+    process.env.isTerminalSocketRunning = "true";
     console.log("Socket.IO server is running on http://localhost:3005");
   });
 }
