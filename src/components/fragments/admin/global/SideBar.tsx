@@ -2,7 +2,16 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { ChartArea, LogOut, Server, User, Wallet } from "lucide-react";
+import {
+  ChartArea,
+  LogOut,
+  Logs,
+  Server,
+  Settings,
+  Terminal,
+  User,
+  Wallet,
+} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
@@ -33,6 +42,7 @@ const SideBar = () => {
               <User className="w-5 h-5" />
             </Link>
           </Button>
+
           <Button
             onClick={() => setPathname("/admin/transactions")}
             className={`${
@@ -45,6 +55,7 @@ const SideBar = () => {
               <Wallet className="w-5 h-5" />
             </Link>
           </Button>
+
           <Button
             onClick={() => setPathname("/admin/analytics")}
             className={`${
@@ -57,6 +68,7 @@ const SideBar = () => {
               <ChartArea className="w-5 h-5" />
             </Link>
           </Button>
+
           <Button
             onClick={() => setPathname("/admin/server-details")}
             className={`${
@@ -67,6 +79,43 @@ const SideBar = () => {
           >
             <Link href={"/admin/server-details"}>
               <Server className="w-5 h-5" />
+            </Link>
+          </Button>
+
+          <Button
+            onClick={() => setPathname("/admin/logs")}
+            className={`${pathname === "/admin/logs" ? "bg-gray-100" : null}`}
+            asChild
+            variant={"ghost"}
+          >
+            <Link href={"/admin/logs"}>
+              <Logs className="w-5 h-5" />
+            </Link>
+          </Button>
+
+          <Button
+            onClick={() => setPathname("/admin/terminal")}
+            className={`${
+              pathname === "/admin/terminal" ? "bg-gray-100" : null
+            }`}
+            asChild
+            variant={"ghost"}
+          >
+            <Link href={"/admin/terminal"}>
+              <Terminal className="w-5 h-5 border" />
+            </Link>
+          </Button>
+
+          <Button
+            onClick={() => setPathname("/admin/settings")}
+            className={`${
+              pathname === "/admin/settings" ? "bg-gray-100" : null
+            }`}
+            asChild
+            variant={"ghost"}
+          >
+            <Link href={"/admin/settings"}>
+              <Settings className="w-5 h-5" />
             </Link>
           </Button>
         </div>

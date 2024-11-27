@@ -32,7 +32,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DataTableColumns } from "@/components/fragments/admin/DataTableUtils";
+import { DataTableColumns } from "@/components/fragments/admin/global/DataTableUtils";
 import { TableConfiguration, TableData } from "@/utils/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";

@@ -1,6 +1,6 @@
 "use client"
 
-import SideBar from "@/components/fragments/admin/SideBar";
+import SideBar from "@/components/fragments/admin/global/SideBar";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {

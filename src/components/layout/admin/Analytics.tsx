@@ -1,6 +1,6 @@
 "use client";
 
-import { Chart } from "@/components/fragments/admin/Chart";
+import { Chart } from "@/components/fragments/admin/global/Chart";
 import DonutChart from "@/components/recharts/DonutChartCPU";
 import { chartConfig2 } from "@/config/chartConfig";
 import { chartData2 } from "@/utils/dumyData";

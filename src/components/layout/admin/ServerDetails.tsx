@@ -1,7 +1,7 @@
 "use client";
 
-import Servers from "@/components/fragments/admin/Servers";
-import { SkeletonDemo } from "@/components/fragments/admin/Skelton";
+import Servers from "@/components/fragments/admin/servers/Servers";
+import { SkeletonDemo } from "@/components/fragments/admin/global/Skelton";
 import DonutChart from "@/components/recharts/DonutChartCPU";
 import { getCPUUsage } from "@/lib/getCpuUsage";
 import { SystemInfoRes } from "@/utils/types";
@@ -31,7 +31,7 @@ const ServerDetails = () => {
   }
 
   return (
-    <div className="flex flex-col w-full h-fit p-5">
+    <div className="flex flex-col w-full h-fit">
       <h1 className="font-bold text-2xl text-gray-900 mb-2 ml-2">System</h1>
       <div className="flex justify-around w-full bg-white border rounded-xl py-5 mb-5 flex-wrap">
         <DonutChart
@@ -50,6 +50,7 @@ const ServerDetails = () => {
           ]}
         />
         <DonutChart
+          title="Memory Usage"
           width={400}
           height={250}
           legendIndex={1}
@@ -73,6 +74,7 @@ const ServerDetails = () => {
           ]}
         />
         <DonutChart
+          title="Network Usage"
           width={400}
           height={250}
           data={[

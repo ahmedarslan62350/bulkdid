@@ -2,14 +2,14 @@
 
 import React from "react";
 
-import { DataTableDemo } from "./DataTable";
+import { DataTableDemo } from "@/components/fragments/admin/global/DataTable";
 import { dummyUsers, userData1 } from "@/utils/dumyData";
 import {
   DropdownMenuItem,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { TableHeadings } from "@/utils/types";
-import { Chart } from "./Chart";
+import { Chart } from "@/components/fragments/admin/global/Chart";
 import { userChartConfig1 } from "@/config/chartConfig";
 
 const UserTable = () => {

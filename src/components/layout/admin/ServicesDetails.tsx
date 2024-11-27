@@ -1,6 +1,6 @@
 "use client";
 
-import ServiceDetails from "@/components/fragments/admin/ServiceDetails";
+import ServiceDetails from "@/components/fragments/admin/services/ServiceDetails";
 import { Label } from "@/components/ui/label";
 import {
   Select,

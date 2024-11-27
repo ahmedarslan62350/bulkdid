@@ -1,4 +1,4 @@
-import TransactionTable from "@/components/fragments/admin/TransactionTable"
+import TransactionTable from "@/components/fragments/admin/transactions/TransactionTable"
 const Transactions = () => {
   return (
     <>
