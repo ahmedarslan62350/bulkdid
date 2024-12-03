@@ -75,14 +75,14 @@ const Analytics = () => {
               width={400}
               height={250}
               title="Users/Day"
-              colors={["brown"]}
+              colors={["black"]}
               data={[{ name: "100 users/day", value: 100 }]}
             />
             <DonutChart
               width={400}
               height={250}
               title="Transaction Success Rate"
-              colors={["black", "red", "#21c244"]}
+              colors={["gray", "red", "black"]}
               data={[
                 { name: "Pending", value: 10 },
                 { name: "Failed", value: 2 },
@@ -94,7 +94,7 @@ const Analytics = () => {
               width={400}
               height={250}
               title="Transaction/Day"
-              colors={["#8884d8"]}
+              colors={["black"]}
               data={[{ name: "100 transactions/day", value: 100 }]}
             />
             <div className="w-full h-[1px] px-10">
@@ -103,23 +103,23 @@ const Analytics = () => {
             <DonutChart
               width={400}
               height={250}
-              colors={["#d61156"]}
               title="DIDs/Day"
+              colors={["black"]}
               data={[{ name: "100K/Day", value: 100 }]}
             />
             <DonutChart
               width={400}
               height={250}
-              colors={["blue"]}
               title="Transaction Amount"
               data={[{ name: "$100", value: 100 }]}
+              colors={["black"]}
               legendName="$100/transaction"
             />
             <DonutChart
               width={400}
               height={250}
-              colors={["#fc5e03"]}
               title="Files/Day"
+              colors={["black"]}
               data={[{ name: "100 Files/Day", value: 100 }]}
             />
           </div>

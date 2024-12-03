@@ -5,7 +5,8 @@ const path = require("path");
 const fs = require("fs");
 const readline = require("readline");
 
-const dev = process.env.NODE_ENV === "development";
+let dev = process.env.NODE_ENV ? true : false;
+
 const hostname = "localhost";
 const port = 3000;
 
@@ -99,5 +100,5 @@ app.prepare().then(() => {
     })
     .listen(port, () => {
       console.log(`> Ready on http://${hostname}:${port}`);
-    })
+    });
 });

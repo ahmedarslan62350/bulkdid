@@ -64,14 +64,14 @@ export const DataTableColumns = ({
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="font-semibold w-full text-center"
+            className="font-semibold w-full text-start justify-start items-start"
           >
             {heading.Header}
             <ArrowUpDown />
           </Button>
         ),
         cell: ({ row }: { row: Row }): React.ReactNode => (
-          <div className="text-sm text-gray-600 text-center w-full">
+          <div className="text-sm text-start w-full px-4">
             {heading.type && heading.type === "date" ? (
               <>
                 {(

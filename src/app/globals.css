@@ -76,27 +76,6 @@ body {
  animation: updown 1s linear infinite forwards alternate;
 }
 
-.terminal {
-  width: 100%;
-  background: black;
-  color: green;
-  font-family: monospace;
-  padding: 10px;
-  border-radius: 5px;
-}
-.output {
-  min-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 10px;
-}
-input {
-  width: calc(100% - 80px);
-  padding: 5px;
-}
-button {
-  padding: 5px 10px;
-}
-
 @keyframes updown {
   from{
     bottom:20px;

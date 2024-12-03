@@ -114,7 +114,7 @@ export function Chart({
                 />
               }
             />
-            <Bar dataKey={activeChart} fill={`var(--color-${activeChart})`} />
+            <Bar dataKey={activeChart} fill={`black`} />
           </BarChart>
         </ChartContainer>
       </CardContent>

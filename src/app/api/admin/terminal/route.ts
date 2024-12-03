@@ -31,26 +31,20 @@ io.on("connection", (socket) => {
 
 async function startTerminalSession(socket: Socket, terminal: string) {
   try {
-    terminalProcess = await spawn(terminal, {
+    terminalProcess = (await spawn(terminal, {
       cwd: process.cwd(),
       shell: false,
-    }) as ChildProcess;
+    })) as ChildProcess;
     terminalProcess.stderr?.on("data", (data: Buffer) => {
       console.log("Starting a new error");
       const output = data.toString();
       socket.emit("command_output", { output });
     });
-    
+
     terminalProcess.stdout?.on("data", (data: Buffer) => {
       console.log("Starting a new terminal started");
       const output = data.toString();
-      output.split("\n").forEach((line: string) => {
-        if (line === "") {
-          return;
-        } else {
-          socket.emit("command_output", { output: line });
-        }
-      });
+      socket.emit("command_output", { output });
     });
   } catch (error) {
     console.log(error);

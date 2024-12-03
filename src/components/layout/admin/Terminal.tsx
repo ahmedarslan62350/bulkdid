@@ -48,7 +48,6 @@ export default function Terminal() {
       scrollAreaRef.current?.scrollTo(0, 599);
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
       if (command === "clear") {

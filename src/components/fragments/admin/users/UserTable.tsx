@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 
-import { DataTableDemo } from "@/components/fragments/admin/global/DataTable";
+import { DataTable} from "@/components/fragments/admin/global/DataTable";
 import { dummyUsers, userData1 } from "@/utils/dumyData";
 import {
   DropdownMenuItem,
@@ -11,8 +11,25 @@ import {
 import { TableHeadings } from "@/utils/types";
 import { Chart } from "@/components/fragments/admin/global/Chart";
 import { userChartConfig1 } from "@/config/chartConfig";
+import { DeleteDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
 
 const UserTable = () => {
+  const handleDelete = (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => {
+    console.log(e);
+    setIsOpen(false);
+  };
+
+  const handleBlock = (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => {
+    console.log(e);
+    setIsOpen(false);
+  };
+
   const usersAdministrationDropdownConfig = {
     heading: "Open Menu",
     items: [
@@ -41,13 +58,25 @@ const UserTable = () => {
         type: "",
       },
       {
-        children: <DropdownMenuItem>Block customer</DropdownMenuItem>,
+        children: (
+          <DeleteDialogBox
+            desc="Are you sure and want to block this user account"
+            handleClick={handleBlock}
+            title="Block customer"
+          />
+        ),
         key: "4",
         props: null,
         type: "",
       },
       {
-        children: <DropdownMenuItem>Delete customer</DropdownMenuItem>,
+        children: (
+          <DeleteDialogBox
+            desc="Are you sure and want to delete this user account"
+            handleClick={handleDelete}
+            title="Delete customer"
+          />
+        ),
         key: "5",
         props: null,
         type: "",
@@ -76,14 +105,14 @@ const UserTable = () => {
 
   return (
     <div className="w-full scroll-smooth">
-      <DataTableDemo
+      <DataTable
         data={dummyUsers}
         config={{
           filterBy: "email",
           heading: "User",
           dropdownConfig: usersAdministrationDropdownConfig,
           headings: usersAdministrationHeadings,
-          isChart:true,
+          isChart: true,
           Chart: (
             <Chart
               chartData={userData1}
@@ -93,7 +122,7 @@ const UserTable = () => {
                 chartConfig: userChartConfig1,
                 chartEntries: ["users"],
                 classname: "my-5",
-                desc:"Shows all the registerd users till last month"
+                desc: "Shows all the registerd users till last month",
               }}
             />
           ),

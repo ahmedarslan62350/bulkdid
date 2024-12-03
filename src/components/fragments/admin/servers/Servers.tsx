@@ -47,7 +47,7 @@ export default function Servers() {
                     </div>
                   ))}
                 </dl>
-                <Button className="mt-3" asChild key={`${(index+Math.random()+5000000)}${new Date()}`}>
+                <Button className="mt-3 bg-black hover:bg-zinc-800" asChild key={`${(index+Math.random()+5000000)}${new Date()}`}>
                   <Link
                     href={"/admin/service-details"}
                     className="w-full h-full"

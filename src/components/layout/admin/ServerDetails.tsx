@@ -37,7 +37,8 @@ const ServerDetails = () => {
         <DonutChart
           width={400}
           height={250}
-          legendIndex={1}
+          legendIndex={0}
+          colors={["black", "gray"]}
           data={[
             {
               name: `${res?.cpuUsage.cpuFree || 0}% Free`,
@@ -53,7 +54,8 @@ const ServerDetails = () => {
           title="Memory Usage"
           width={400}
           height={250}
-          legendIndex={1}
+          legendIndex={0}
+          colors={["black", "gray"]}
           data={[
             {
               name: `${Number(
@@ -77,6 +79,7 @@ const ServerDetails = () => {
           title="Network Usage"
           width={400}
           height={250}
+          colors={["black"]}
           data={[
             {
               name: res?.networkUsage.KBSpeed

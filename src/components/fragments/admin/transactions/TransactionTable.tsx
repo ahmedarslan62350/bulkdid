@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 
-import { DataTableDemo } from "@/components/fragments/admin/global/DataTable";
+import { DataTable } from "@/components/fragments/admin/global/DataTable";
 import { dummyTransactions, transactionData1 } from "@/utils/dumyData";
 import {
   DropdownMenuItem,
@@ -11,8 +11,17 @@ import {
 import { TableHeadings } from "@/utils/types";
 import { Chart } from "@/components/fragments/admin/global/Chart";
 import { transactionChartConfig1 } from "@/config/chartConfig";
+import { DeleteDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
 
 const TransactionTable = () => {
+  const handleDelete = (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => {
+    console.log(e);
+    setIsOpen(false);
+  };
+
   const transactionsAdministrationDropdownConfig = {
     heading: "Open Menu",
     items: [
@@ -41,7 +50,13 @@ const TransactionTable = () => {
         type: "",
       },
       {
-        children: <DropdownMenuItem>Delete transaction</DropdownMenuItem>,
+        children: (
+          <DeleteDialogBox
+            desc="Are you sure and want to delete this transaction"
+            handleClick={handleDelete}
+            title="Delete transaction"
+          />
+        ),
         key: "5",
         props: null,
         type: "",
@@ -67,7 +82,7 @@ const TransactionTable = () => {
 
   return (
     <div className="w-full scroll-smooth">
-      <DataTableDemo
+      <DataTable
         data={dummyTransactions}
         config={{
           filterBy: "amount",
