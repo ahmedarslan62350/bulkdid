@@ -1,13 +1,181 @@
-import React from 'react'
+import User from "@/components/layout/admin/User";
+import React from "react";
 
-const page = async ({
-  params
-}: {
-  params: Promise<{ id: string }>
-}) => {
-  return (
-    <div>{(await params).id}</div>
-  )
-}
 
-export default page
+const transactions = [
+  {
+    _id: "66f57c7e590e31be8cfd783a",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "3000",
+    type: "deposit",
+    status: "completed",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923026577397",
+    accountHolderName: "Muhammad Afzal",
+    bank: "JazzCash",
+    BBT: 1000,
+    imageUrl: null,
+    timeStamp: "2024-09-26T15:23:42.256+00:00",
+    BAT: 4000,
+    __v: 0,
+  },
+  {
+    _id: "66f57c8a590e31be8cfd784b",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "5000",
+    type: "withdraw",
+    status: "completed",
+    from: "Admin",
+    to: "Ahmed Arslan",
+    bankAccount: "+923024567891",
+    accountHolderName: "Ahmed Arslan",
+    bank: "HBL",
+    BBT: 2000,
+    imageUrl: null,
+    timeStamp: "2024-09-27T10:30:12.123+00:00",
+    BAT: 7000,
+    __v: 0,
+  },
+  {
+    _id: "66f57c9e590e31be8cfd785c",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "1500",
+    type: "deposit",
+    status: "pending",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923023456789",
+    accountHolderName: "Muhammad Afzal",
+    bank: "EasyPaisa",
+    BBT: 500,
+    imageUrl: "https://via.placeholder.com/150",
+    timeStamp: "2024-09-28T08:45:52.456+00:00",
+    BAT: 2000,
+    __v: 0,
+  },
+  {
+    _id: "66f57cae590e31be8cfd786d",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "7000",
+    type: "withdraw",
+    status: "completed",
+    from: "Admin",
+    to: "Ahmed Arslan",
+    bankAccount: "+923021234567",
+    accountHolderName: "Ahmed Arslan",
+    bank: "UBL",
+    BBT: 3000,
+    imageUrl: null,
+    timeStamp: "2024-09-29T11:15:32.789+00:00",
+    BAT: 10000,
+    __v: 0,
+  },
+  {
+    _id: "66f57cbe590e31be8cfd787e",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "2500",
+    type: "deposit",
+    status: "completed",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923026789012",
+    accountHolderName: "Muhammad Afzal",
+    bank: "Meezan Bank",
+    BBT: 800,
+    imageUrl: null,
+    timeStamp: "2024-09-30T14:25:22.345+00:00",
+    BAT: 3300,
+    __v: 0,
+  },
+];
+const wallet = {
+  _id: "66f573d6590e31be8cfd75c9",
+  balance: 226121.95999999996,
+  currency: "USD",
+  user_id: "66f573d6590e31be8cfd75c8",
+  transactions: transactions,
+  transactionsCount: 10,
+  lastWithdraw: "2024-10-29T15:59:46.433+00:00",
+  lastDeposited: "2024-10-29T12:56:52.308+00:00",
+  totalWithdraw: 1,
+  totalDeposited: 9,
+  totalBalanceCount: 0,
+  lastUpdated: "2024-10-29T15:59:46.433+00:00",
+  __v: 10,
+};
+const files = [
+  {
+    _id: "66f6cda86324b46443030fa7",
+    owner: "66f573d6590e31be8cfd75c8",
+    filename: "5 8 2024.csv",
+    filePath: "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d6590e31be8cfd75c8\\5 8 2024.csv",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModefied: 1727447832437,
+    noOfCallerIds: 1120,
+    extentionName: "csv",
+    status: "completed",
+    realname: "Book4.csv",
+    __v: 0,
+  },
+  {
+    _id: "66f6cda86324b46443030fa8",
+    owner: "66f573d6590e31be8cfd75c8",
+    filename: "6 8 2024.xlsx",
+    filePath: "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d6590e31be8cfd75c8\\6 8 2024.xlsx",
+    size: 62345,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModefied: 1727449932437,
+    noOfCallerIds: 1300,
+    extentionName: "xlsx",
+    status: "completed",
+    realname: "Contacts.xlsx",
+    __v: 0,
+  },
+  {
+    _id: "66f6cda86324b46443030fa9",
+    owner: "66f573d6590e31be8cfd75c8",
+    filename: "7 8 2024.csv",
+    filePath: "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d6590e31be8cfd75c8\\7 8 2024.csv",
+    size: 48290,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModefied: 1727451932437,
+    noOfCallerIds: 980,
+    extentionName: "csv",
+    status: "pending",
+    realname: "Book5.csv",
+    __v: 0,
+  },
+];
+const user = {
+  _id: "66f573d6590e31be8cfd75c8",
+  username: "Muhammad Afzal",
+  email: "ahmedarslanarslan9@gmail.com",
+  password: "$2a$10$dumwWqliHWVLqPOaq2/2g.TEvS6DDDUk36s4E.CTb6ZJg9Hthp30O",
+  profileImage: "https://via.placeholder.com/150",
+  verifyCode: "836044",
+  verifyCodeExpiry: "1728617235539",
+  verifyCodeLimit: 1,
+  isVerified: true,
+  isAdmin: false,
+  bio: "I am a developer",
+  googleId: "",
+  githubId: "",
+  twitterId: "",
+  facebookId: "",
+  role: "admin",
+  files: files,
+  isLoggedInWithCredentials: true,
+  isBlocked: false,
+  createdAt: "2024-09-26T14:46:46.740+00:00",
+  updatedAt: "2024-09-26T14:46:46.740+00:00",
+  walletId: wallet,
+  __v: 25,
+};
+
+const page = async ({ params }: { params: Promise<{ id: string }> }) => {
+  return <User user={user} />;
+};
+
+export default page;

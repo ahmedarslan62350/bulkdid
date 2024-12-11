@@ -119,3 +119,23 @@ export type SystemInfoRes = {
     KBSpeed: number;
   };
 } | null;
+
+export interface Transaction {
+  _id: string;
+  wallet_id: string;
+  amount: string;
+  type: string;
+  status: string;
+  from: string;
+  to: string;
+  timeStamp: Date;
+  bankAccount: string;
+  accountHolderName: string;
+  bank: string;
+  BBT: number;
+  BAT: number;
+}
+
+export interface UserDetailsProps {
+  user: Omit<any, "walletId"> & { walletId: any };
+}

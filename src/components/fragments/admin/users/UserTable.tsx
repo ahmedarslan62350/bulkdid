@@ -2,7 +2,7 @@
 
 import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 
-import { DataTable} from "@/components/fragments/admin/global/DataTable";
+import { DataTable } from "@/components/fragments/admin/global/DataTable";
 import { dummyUsers, userData1 } from "@/utils/dumyData";
 import {
   DropdownMenuItem,
@@ -11,9 +11,12 @@ import {
 import { TableHeadings } from "@/utils/types";
 import { Chart } from "@/components/fragments/admin/global/Chart";
 import { userChartConfig1 } from "@/config/chartConfig";
-import { DeleteDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
+import { DeleteLikeDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
+import { useRouter } from "next/navigation";
 
 const UserTable = () => {
+  const { replace } = useRouter();
+
   const handleDelete = (
     e: MouseEvent<HTMLButtonElement>,
     setIsOpen: Dispatch<SetStateAction<boolean>>
@@ -29,7 +32,14 @@ const UserTable = () => {
     console.log(e);
     setIsOpen(false);
   };
-
+  const handleViewDetails = (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => {
+    console.log(e);
+    replace("/admin/user/1");
+    setIsOpen(false);
+  };
   const usersAdministrationDropdownConfig = {
     heading: "Open Menu",
     items: [
@@ -46,7 +56,14 @@ const UserTable = () => {
         type: "",
       },
       {
-        children: <DropdownMenuItem>View customer</DropdownMenuItem>,
+        children: (
+          <DeleteLikeDialogBox
+            desc="Are you sure and want to saw this user account"
+            handleClick={handleViewDetails}
+            title="View customer"
+            buttonClasses="bg-green-500 hover:bg-green-600"
+          />
+        ),
         key: "2",
         props: null,
         type: "",
@@ -59,7 +76,7 @@ const UserTable = () => {
       },
       {
         children: (
-          <DeleteDialogBox
+          <DeleteLikeDialogBox
             desc="Are you sure and want to block this user account"
             handleClick={handleBlock}
             title="Block customer"
@@ -71,7 +88,7 @@ const UserTable = () => {
       },
       {
         children: (
-          <DeleteDialogBox
+          <DeleteLikeDialogBox
             desc="Are you sure and want to delete this user account"
             handleClick={handleDelete}
             title="Delete customer"
@@ -85,12 +102,12 @@ const UserTable = () => {
   };
   const usersAdministrationHeadings: TableHeadings[] = [
     {
-      Header: "Email",
-      accessor: "email",
-    },
-    {
       Header: "Username",
       accessor: "username",
+    },
+    {
+      Header: "Email",
+      accessor: "email",
     },
     {
       Header: "Role",

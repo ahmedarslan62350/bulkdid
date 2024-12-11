@@ -12,13 +12,15 @@ import {
 } from "@/components/ui/dialog";
 import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
 
-export function DeleteDialogBox({
+export function DeleteLikeDialogBox({
   title,
   desc,
   handleClick,
+  buttonClasses,
 }: {
   title: string;
   desc: string;
+  buttonClasses?: string; 
   handleClick:(e: MouseEvent<HTMLButtonElement> , setIsOpen:Dispatch<SetStateAction<boolean>>)=>void;
 }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -34,7 +36,7 @@ export function DeleteDialogBox({
           <DialogDescription>{desc}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button type="submit" variant={"destructive"} onClick={(e:MouseEvent<HTMLButtonElement>)=>handleClick(e , setIsOpen)}>
+          <Button className={buttonClasses} type="submit" variant={"destructive"} onClick={(e:MouseEvent<HTMLButtonElement>)=>handleClick(e , setIsOpen)}>
             {title}
           </Button>
         </DialogFooter>

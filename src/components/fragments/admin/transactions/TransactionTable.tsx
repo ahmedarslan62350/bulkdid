@@ -11,7 +11,7 @@ import {
 import { TableHeadings } from "@/utils/types";
 import { Chart } from "@/components/fragments/admin/global/Chart";
 import { transactionChartConfig1 } from "@/config/chartConfig";
-import { DeleteDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
+import { DeleteLikeDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
 
 const TransactionTable = () => {
   const handleDelete = (
@@ -51,7 +51,7 @@ const TransactionTable = () => {
       },
       {
         children: (
-          <DeleteDialogBox
+          <DeleteLikeDialogBox
             desc="Are you sure and want to delete this transaction"
             handleClick={handleDelete}
             title="Delete transaction"
