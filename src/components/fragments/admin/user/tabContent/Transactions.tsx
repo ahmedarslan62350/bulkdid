@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
-import { Transaction } from "@/utils/types";
+import { Transaction, User } from "@/utils/types";
 
 const Transactions = ({
   user,
@@ -25,8 +25,8 @@ const Transactions = ({
   transactions,
   handleTransactionStatusChange,
 }: {
-  user: any;
-  handleInputChange: (e: any) => void;
+  user: User;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isEditing: boolean;
   handleTransactionStatusChange: (id: string, value: string) => void;
   transactions: Transaction[];
@@ -76,7 +76,7 @@ const Transactions = ({
                 <TableCell>{transaction.bank}</TableCell>
                 <TableCell>
                   <Link
-                    href={`/admin/users/${user._id}/transactions/${transaction._id}`}
+                    href={`/admin/user/${user._id}/transactions/${transaction._id}`}
                   >
                     <Button variant="ghost" size="sm">
                       <Eye className="h-4 w-4 mr-2" />

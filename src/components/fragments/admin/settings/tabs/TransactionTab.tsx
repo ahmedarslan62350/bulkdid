@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -59,11 +59,9 @@ const TransactionTab = () => {
           </SelectTrigger>
           <SelectContent>
             <div className="flex justify-between items-center p-2 w-full">
-              <CustomDialogBox
-                setIsOpen={setIsOpen}
-                isOpen={isOpen}
-                children={<AddNewBankPage setIsOpen={setIsOpen} />}
-              />
+              <CustomDialogBox setIsOpen={setIsOpen} isOpen={isOpen}>
+                <AddNewBankPage setIsOpen={setIsOpen} />
+              </CustomDialogBox>
             </div>
             <div className="w-full h-[1px] bg-gray-300 mb-2"></div>
             <SelectItem value="googlepay">Google Pay</SelectItem>

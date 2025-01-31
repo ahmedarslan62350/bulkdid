@@ -128,7 +128,7 @@ export interface Transaction {
   status: string;
   from: string;
   to: string;
-  timeStamp: Date;
+  timeStamp: Date | string;
   bankAccount: string;
   accountHolderName: string;
   bank: string;
@@ -137,5 +137,116 @@ export interface Transaction {
 }
 
 export interface UserDetailsProps {
-  user: Omit<any, "walletId"> & { walletId: any };
+  user: User;
+}
+
+export interface Transaction {
+  _id: string;
+  amount: number;
+  type: string;
+  status: string;
+  timeStamp: Date | string; // or string, depending on your data
+  from: string;
+  to: string;
+  bankAccount: string;
+  accountHolderName: string;
+  bank: string;
+  BBT: number;
+  BAT: number;
+  imageUrl?: string; // optional
+}
+
+export interface RecentTransaction {
+  id: number;
+  type: "deposit" | "withdrawal" | "transfer";
+  amount: number;
+  date: string;
+  description: string;
+}
+
+export interface RecentTransactionsProps {
+  transactions: RecentTransaction[];
+}
+
+export interface FileUploadProps {
+  onFileUpload: (file: File) => void;
+}
+
+export interface ManualInputProps {
+  onManualInput: (callerIds: string[]) => void;
+}
+
+export interface UserFile {
+  id: string;
+  filename: string;
+  filePath: string;
+  size: number;
+  type: string;
+  lastModified: number;
+  noOfCallerIds: number;
+  extensionName: string;
+  status: string;
+  realname: string;
+}
+
+export interface SideBarNavItems {
+  href: string;
+  label: string;
+  icon?: ForwardRefExoticComponent<
+    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
+  >;
+}
+
+export interface FileDetails {
+  _id?: string;
+  id?: string;
+  filename: string;
+  filePath?: string;
+  size?: number | string;
+  type?: string;
+  lastModified?: number | Date;
+  noOfCallerIds: number;
+  extensionName?: string;
+  status: string;
+  realname: string;
+  __v?: string | number;
+  owner: string;
+}
+
+export interface Wallet {
+  _id: string;
+  balance: number;
+  currency: string;
+  type: string;
+  userId: string;
+  totalWithdraw: number;
+  totalDeposited: number;
+  lastWithdraw: number | string;
+  lastDeposited: number | string;
+  totalBalanceCount: number;
+  transactionsCount: number;
+  transactions: Array<Transaction>;
+  user_id: number | string;
+  lastUpdated: number | string | Date;
+}
+
+export interface User {
+  files: FileDetails[];
+  _id: string;
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+  walletId: Wallet;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  bio: string;
+  isVerified: boolean;
+  verifyCode: string | number;
+  verifyCodeExpiry: string | number;
+  verifyCodeLimit: number;
+  profileImage: string;
+  isLoggedInWithCredentials: boolean;
+  isAdmin: boolean;
+  isBlocked: boolean;
 }

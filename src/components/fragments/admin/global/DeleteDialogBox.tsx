@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,18 +17,25 @@ export function DeleteLikeDialogBox({
   desc,
   handleClick,
   buttonClasses,
+  variant = "destructive"
 }: {
   title: string;
   desc: string;
-  buttonClasses?: string; 
-  handleClick:(e: MouseEvent<HTMLButtonElement> , setIsOpen:Dispatch<SetStateAction<boolean>>)=>void;
+  buttonClasses?: string;
+  handleClick: (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => void;
+  variant?: "destructive" | "default"; 
 }) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <p className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-gray-100">{title}</p>
+        <p className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-gray-100">
+          {title}
+        </p>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -36,7 +43,20 @@ export function DeleteLikeDialogBox({
           <DialogDescription>{desc}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button className={buttonClasses} type="submit" variant={"destructive"} onClick={(e:MouseEvent<HTMLButtonElement>)=>handleClick(e , setIsOpen)}>
+          <Button
+            variant={"outline"}
+            onClick={() => setIsOpen(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            className={buttonClasses}
+            type="submit"
+            variant={variant}
+            onClick={(e: MouseEvent<HTMLButtonElement>) =>
+              handleClick(e, setIsOpen)
+            }
+          >
             {title}
           </Button>
         </DialogFooter>

@@ -20,8 +20,9 @@ import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import UserTabs from "@/components/fragments/admin/user/UserTabs";
 import { Transaction, UserDetailsProps } from "@/utils/types";
+import Image from "next/image";
 
-export default function User({ user: initialUser }: UserDetailsProps | any) {
+export default function User({ user: initialUser }: UserDetailsProps) {
   const [user, setUser] = useState(initialUser);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -37,7 +38,7 @@ export default function User({ user: initialUser }: UserDetailsProps | any) {
   ) => {
     const { name, value } = e.target;
     if (name.includes("walletId")) {
-      setUser((prevUser: any) => ({
+      setUser((prevUser: UserDetailsProps["user"]) => ({
         ...prevUser,
         walletId: {
           ...prevUser.walletId,
@@ -47,13 +48,16 @@ export default function User({ user: initialUser }: UserDetailsProps | any) {
       return;
     }
 
-    setUser((prevUser: any) => ({ ...prevUser, [name]: value }));
+    setUser((prevUser: UserDetailsProps["user"]) => ({
+      ...prevUser,
+      [name]: value,
+    }));
   };
 
   const handleSwitchChange = (name: string) => {
-    setUser((prevUser: any) => ({
+    setUser((prevUser: UserDetailsProps["user"]) => ({
       ...prevUser,
-      [name]: !prevUser[name as keyof any],
+      [name]: !prevUser[name as keyof UserDetailsProps["user"]],
     }));
   };
 
@@ -77,7 +81,9 @@ export default function User({ user: initialUser }: UserDetailsProps | any) {
         description: "User updated successfully",
         duration: 5000,
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleTransactionStatusChange = (
@@ -119,10 +125,12 @@ export default function User({ user: initialUser }: UserDetailsProps | any) {
           )}
         </div>
         <div className="flex items-center space-x-4">
-          <img
+          <Image
             src={user.profileImage || "/placeholder.svg?height=200&width=200"}
             alt={`${user.username}'s avatar`}
             className="w-20 h-20 rounded-full"
+            width={100}
+            height={100}
           />
           <div>
             <CardTitle>{user.username}</CardTitle>

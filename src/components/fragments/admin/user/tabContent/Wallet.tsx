@@ -1,14 +1,15 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { User } from "@/utils/types";
 
 const Wallet = ({
   user,
   handleInputChange,
   isEditing,
 }: {
-  user: any;
-  handleInputChange: (e: any) => void;
+  user: User;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isEditing: boolean;
 }) => {
   return (

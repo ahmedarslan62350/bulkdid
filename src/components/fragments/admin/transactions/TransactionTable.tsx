@@ -12,13 +12,25 @@ import { TableHeadings } from "@/utils/types";
 import { Chart } from "@/components/fragments/admin/global/Chart";
 import { transactionChartConfig1 } from "@/config/chartConfig";
 import { DeleteLikeDialogBox } from "@/components/fragments/admin/global/DeleteDialogBox";
+import { useRouter } from "next/navigation";
 
 const TransactionTable = () => {
+  const { replace } = useRouter();
+
   const handleDelete = (
     e: MouseEvent<HTMLButtonElement>,
     setIsOpen: Dispatch<SetStateAction<boolean>>
   ) => {
     console.log(e);
+    setIsOpen(false);
+  };
+
+  const handleViewDetails = (
+    e: MouseEvent<HTMLButtonElement>,
+    setIsOpen: Dispatch<SetStateAction<boolean>>
+  ) => {
+    console.log(e);
+    replace("/admin/transactions/1");
     setIsOpen(false);
   };
 
@@ -38,7 +50,14 @@ const TransactionTable = () => {
         type: "",
       },
       {
-        children: <DropdownMenuItem>View transaction</DropdownMenuItem>,
+        children: (
+          <DeleteLikeDialogBox
+            desc="Are you sure and want to saw this transaction details"
+            handleClick={handleViewDetails}
+            title="View transaction"
+            variant="default"
+          />
+        ),
         key: "2",
         props: null,
         type: "",

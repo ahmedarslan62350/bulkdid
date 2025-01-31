@@ -1,6 +1,20 @@
-import { TransactionForDataTable, UserForDataTable } from "./types";
-import { Database, FileText, MessageCircle, Cog, Mail, Server } from "lucide-react"
-
+import {
+  FileDetails,
+  Transaction,
+  TransactionForDataTable,
+  User,
+  UserFile,
+  UserForDataTable,
+  Wallet,
+} from "./types";
+import {
+  Database,
+  FileText,
+  MessageCircle,
+  Cog,
+  Mail,
+  Server,
+} from "lucide-react";
 
 export const dummyUsers: UserForDataTable[] = [
   {
@@ -169,7 +183,7 @@ export const chartData1 = [
   { month: "April", desktop: 73, mobile: 190 },
   { month: "May", desktop: 209, mobile: 130 },
   { month: "June", desktop: 214, mobile: 140 },
-]
+];
 
 export const chartData2 = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
@@ -263,7 +277,7 @@ export const chartData2 = [
   { date: "2024-06-28", desktop: 149, mobile: 200 },
   { date: "2024-06-29", desktop: 103, mobile: 160 },
   { date: "2024-06-30", desktop: 446, mobile: 400 },
-]
+];
 
 export const transactionData1 = [
   { date: "2024-04-01", withdrawal: 120, deposit: 200 },
@@ -371,8 +385,8 @@ export const services = [
     details: {
       type: "PostgreSQL",
       version: "13.4",
-      connections: 42
-    }
+      connections: 42,
+    },
   },
   {
     name: "File Server Handler",
@@ -382,8 +396,8 @@ export const services = [
     details: {
       storageUsed: "1.2 TB",
       activeUploads: 3,
-      activeDownloads: 7
-    }
+      activeDownloads: 7,
+    },
   },
   {
     name: "WhatsApp Server",
@@ -393,8 +407,8 @@ export const services = [
     details: {
       messagesProcessed: "10k/hour",
       activeUsers: 5000,
-      queueLength: 250
-    }
+      queueLength: 250,
+    },
   },
   {
     name: "File Processing Manager",
@@ -404,8 +418,8 @@ export const services = [
     details: {
       activeJobs: 15,
       queuedJobs: 30,
-      averageProcessingTime: "2.3 minutes"
-    }
+      averageProcessingTime: "2.3 minutes",
+    },
   },
   {
     name: "Mail Sender",
@@ -415,8 +429,8 @@ export const services = [
     details: {
       emailsSent: "5k/day",
       queueLength: 42,
-      deliveryRate: "99.7%"
-    }
+      deliveryRate: "99.7%",
+    },
   },
   {
     name: "Norombo Res Handler",
@@ -426,10 +440,10 @@ export const services = [
     details: {
       activeRequests: 0,
       lastMaintenanceStart: "2023-06-15 14:30 UTC",
-      estimatedCompletion: "2023-06-15 16:00 UTC"
-    }
-  }
-]
+      estimatedCompletion: "2023-06-15 16:00 UTC",
+    },
+  },
+];
 
 export const servicesDetails = {
   database: {
@@ -445,7 +459,7 @@ export const servicesDetails = {
       lastBackup: "2023-06-15 02:00 UTC",
       dataSize: "500 GB",
       queryPerformance: "25ms average",
-    }
+    },
   },
   fileserver: {
     name: "File Server Handler",
@@ -460,7 +474,7 @@ export const servicesDetails = {
       averageFileSize: "1.2 MB",
       uploadSpeed: "10 MB/s",
       downloadSpeed: "20 MB/s",
-    }
+    },
   },
   whatsapp: {
     name: "WhatsApp Server",
@@ -475,7 +489,7 @@ export const servicesDetails = {
       averageResponseTime: "1.5s",
       peakHour: "14:00-15:00 UTC",
       activeChannels: 3000,
-    }
+    },
   },
   fileprocessing: {
     name: "File Processing Manager",
@@ -490,7 +504,7 @@ export const servicesDetails = {
       maxFileSize: "50 MB",
       concurrentJobs: 20,
       processingCapacity: "1000 files/hour",
-    }
+    },
   },
   mailsender: {
     name: "Mail Sender",
@@ -505,7 +519,7 @@ export const servicesDetails = {
       averageSendTime: "1.2s",
       spamScore: "0.1/10",
       supportedAttachmentTypes: "PDF, DOCX, XLSX, JPG, PNG",
-    }
+    },
   },
   norombo: {
     name: "Norombo Res Handler",
@@ -520,6 +534,284 @@ export const servicesDetails = {
       peakConcurrentRequests: 1000,
       supportedApiVersions: "v1, v2, v3",
       cacheHitRate: "85%",
-    }
-  }
-}
+    },
+  },
+};
+
+export const transactions: Transaction[] = [
+  {
+    _id: "66f57c7e590e31be8cfd783a",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "3000",
+    type: "deposit",
+    status: "completed",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923026577397",
+    accountHolderName: "Muhammad Afzal",
+    bank: "JazzCash",
+    BBT: 1000,
+    imageUrl: "",
+    timeStamp: "2024-09-26T15:23:42.256+00:00",
+    BAT: 4000,
+  },
+  {
+    _id: "66f57c8a590e31be8cfd784b",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "5000",
+    type: "withdraw",
+    status: "completed",
+    from: "Admin",
+    to: "Ahmed Arslan",
+    bankAccount: "+923024567891",
+    accountHolderName: "Ahmed Arslan",
+    bank: "HBL",
+    BBT: 2000,
+    imageUrl: "",
+    timeStamp: "2024-09-27T10:30:12.123+00:00",
+    BAT: 7000,
+  },
+  {
+    _id: "66f57c9e590e31be8cfd785c",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "1500",
+    type: "deposit",
+    status: "pending",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923023456789",
+    accountHolderName: "Muhammad Afzal",
+    bank: "EasyPaisa",
+    BBT: 500,
+    imageUrl: "https://via.placeholder.com/150",
+    timeStamp: "2024-09-28T08:45:52.456+00:00",
+    BAT: 2000,
+  },
+  {
+    _id: "66f57cae590e31be8cfd786d",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "7000",
+    type: "withdraw",
+    status: "completed",
+    from: "Admin",
+    to: "Ahmed Arslan",
+    bankAccount: "+923021234567",
+    accountHolderName: "Ahmed Arslan",
+    bank: "UBL",
+    BBT: 3000,
+    imageUrl: "",
+    timeStamp: "2024-09-29T11:15:32.789+00:00",
+    BAT: 10000,
+  },
+  {
+    _id: "66f57cbe590e31be8cfd787e",
+    wallet_id: "66f573d6590e31be8cfd75c9",
+    amount: "2500",
+    type: "deposit",
+    status: "completed",
+    from: "Ahmed Arslan",
+    to: "Admin",
+    bankAccount: "+923026789012",
+    accountHolderName: "Muhammad Afzal",
+    bank: "Meezan Bank",
+    BBT: 800,
+    imageUrl: "",
+    timeStamp: "2024-09-30T14:25:22.345+00:00",
+    BAT: 3300,
+  },
+];
+export const wallet: Wallet = {
+  _id: "66f573d6590e31be8cfd75c9",
+  balance: 226121.95999999996,
+  currency: "USD",
+  user_id: "66f573d6590e31be8cfd75c8",
+  transactions: transactions,
+  transactionsCount: 10,
+  lastWithdraw: "2024-10-29T15:59:46.433+00:00",
+  lastDeposited: "2024-10-29T12:56:52.308+00:00",
+  totalWithdraw: 1,
+  totalDeposited: 9,
+  totalBalanceCount: 0,
+  lastUpdated: "2024-10-29T15:59:46.433+00:00",
+  userId: "66f573d6590e31be8cfd75c8",
+  type: "deposite",
+};
+export const files: FileDetails[] = [
+  {
+    id: "66f6cda86324b46443030fa7",
+    _id: "66f6cda86324b46443030fa7",
+    owner: "66f573d6590e31be8cfd75c8",
+    filename: "5 8 2024.csv",
+    filePath:
+      "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d6590e31be8cfd75c8\\5 8 2024.csv",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModified: 1727447832437,
+    noOfCallerIds: 1120,
+    extensionName: "csv",
+    status: "completed",
+    realname: "Book4.csv",
+    __v: 0,
+  },
+];
+export const user: User = {
+  _id: "66f573d6590e31be8cfd75c8",
+  username: "Muhammad Afzal",
+  email: "ahmedarslanarslan9@gmail.com",
+  password: "$2a$10$dumwWqliHWVLqPOaq2/2g.TEvS6DDDUk36s4E.CTb6ZJg9Hthp30O",
+  profileImage: "https://via.placeholder.com/150",
+  verifyCode: "836044",
+  verifyCodeExpiry: "1728617235539",
+  verifyCodeLimit: 1,
+  isVerified: true,
+  isAdmin: false,
+  bio: "I am a developer",
+  role: "admin",
+  files: files,
+  isLoggedInWithCredentials: true,
+  isBlocked: false,
+  createdAt: "2024-09-26T14:46:46.740+00:00",
+  updatedAt: "2024-09-26T14:46:46.740+00:00",
+  walletId: wallet,
+};
+
+export const mockTransaction: Transaction = {
+  _id: "txn_123456",
+  imageUrl: "/images/sample.png", // Provide a valid local path or public image URL for testing
+  amount: "1000",
+  type: "Deposit",
+  status: "Completed",
+  timeStamp: new Date(),
+  from: "John Doe",
+  to: "XYZ Bank",
+  bankAccount: "123456789",
+  accountHolderName: "John Doe",
+  bank: "ABC Bank",
+  BBT: 123.456,
+  BAT: 78.91,
+  wallet_id: "66f573d6590e31be8cfd75c8",
+};
+export const mockFile = {
+  owner: "user123",
+  realname: "Sample File",
+  filename: "sample_file",
+  size: "2 MB",
+  type: "text/csv",
+  lastModefied: "2024-12-01T12:34:56Z",
+  status: "Completed",
+  noOfCallerIds: 150,
+  extentionName: "csv",
+};
+
+export const transaction = {
+  id: "TRX123456",
+  amount: 1234.56,
+  date: "2023-12-25T12:34:56Z",
+  description: "Christmas shopping spree",
+  category: "Shopping",
+  customerName: "John Doe",
+  customerEmail: "john.doe@example.com",
+  paymentMethod: "Credit Card",
+  cardLastFour: "1234",
+  billingAddress: "123 Main St, Anytown, AN 12345",
+  ipAddress: "192.168.1.1",
+  deviceInfo: "iPhone 12, iOS 15.0",
+  receiptUrl: "/dummy-receipt.pdf",
+};
+
+export const walletData = {
+  balance: 1234.56,
+  currency: "USD",
+  transactions: [
+    {
+      id: 1,
+      type: "deposit",
+      amount: 500,
+      date: "2023-06-01",
+      description: "Salary",
+    },
+    {
+      id: 2,
+      type: "withdrawal",
+      amount: 50,
+      date: "2023-06-02",
+      description: "Groceries",
+    },
+    {
+      id: 3,
+      type: "transfer",
+      amount: 200,
+      date: "2023-06-03",
+      description: "Rent",
+    },
+    {
+      id: 4,
+      type: "deposit",
+      amount: 100,
+      date: "2023-06-04",
+      description: "Refund",
+    },
+    {
+      id: 5,
+      type: "withdrawal",
+      amount: 75,
+      date: "2023-06-05",
+      description: "Dining out",
+    },
+  ],
+};
+
+export const mockFiles: UserFile[] = [
+  {
+    id: "1",
+    filename: "5 8 2024.csv",
+    filePath:
+      "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d…",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModified: 1727447832437,
+    noOfCallerIds: 1120,
+    extensionName: "csv",
+    status: "completed",
+    realname: "abc.csv",
+  },
+  {
+    id: "2",
+    filename: "5 8 2024.csv",
+    filePath:
+      "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d…",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModified: 1727447832437,
+    noOfCallerIds: 1120,
+    extensionName: "csv",
+    status: "completed",
+    realname: "Book4.csv",
+  },
+  {
+    id: "3",
+    filename: "5 8 2024.csv",
+    filePath:
+      "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d…",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModified: 1727447832437,
+    noOfCallerIds: 1120,
+    extensionName: "csv",
+    status: "completed",
+    realname: "Book4.csv",
+  },
+  {
+    id: "4",
+    filename: "5 8 2024.csv",
+    filePath:
+      "D:\\Full-stack\\Sigma Dialer Premium\\file-server-handler\\uploads\\66f573d…",
+    size: 50301,
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    lastModified: 1727447832437,
+    noOfCallerIds: 1120,
+    extensionName: "csv",
+    status: "completed",
+    realname: "Book4.csv",
+  },
+];

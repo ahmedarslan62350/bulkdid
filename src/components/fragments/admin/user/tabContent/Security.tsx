@@ -1,7 +1,8 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
+import { User } from "@/utils/types";
 
 const Security = ({
   user,
@@ -9,8 +10,10 @@ const Security = ({
   isEditing,
   handleSwitchChange,
 }: {
-  user: any;
-  handleInputChange: (e: any) => void;
+  user: User;
+  handleInputChange: (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   isEditing: boolean;
   handleSwitchChange: (value: string) => void;
 }) => {

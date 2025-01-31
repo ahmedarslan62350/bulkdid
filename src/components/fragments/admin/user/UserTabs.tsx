@@ -1,6 +1,6 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Transaction } from "@/utils/types";
+import { Transaction, User } from "@/utils/types";
 import { getTabsContent, tabsHeadings } from "./tabs";
 
 const UserTabs = ({
@@ -11,8 +11,8 @@ const UserTabs = ({
   handleTransactionStatusChange,
   transactions,
 }: {
-  user: any;
-  handleInputChange: (e: any) => void;
+  user: User;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSwitchChange: (value: string) => void;
   handleTransactionStatusChange: (id: string, value: string) => void;
   transactions: Transaction[];

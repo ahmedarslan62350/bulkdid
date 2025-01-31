@@ -13,9 +13,10 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Download, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { FileDetails, User } from "@/utils/types";
 
 const isProduction = process.env.NODE_ENV !== "development";
-const Files = ({ user }: { user: any }) => {
+const Files = ({ user }: { user: User }) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   return (
@@ -44,26 +45,26 @@ const Files = ({ user }: { user: any }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {user.files.map((file: any) => (
+            {user.files.map((file: FileDetails) => (
               <TableRow key={file._id}>
                 <TableCell>
-                  <Link href={`/admin/users/${user._id}/file/${file._id}`}>
+                  <Link href={`/admin/user/${user._id}/file/${file._id}`}>
                     {file._id}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Link href={`/admin/users/${user._id}/file/${file._id}`}>
+                  <Link href={`/admin/user/${user._id}/file/${file._id}`}>
                     {file.realname}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Link href={`/admin/users/${user._id}/file/${file._id}`}>
+                  <Link href={`/admin/user/${user._id}/file/${file._id}`}>
                     {file.size}
                   </Link>
                 </TableCell>
                 <TableCell>
-                  <Link href={`/admin/users/${user._id}/file/${file._id}`}>
-                    {new Date(file.lastModefied).toDateString()}
+                  <Link href={`/admin/user/${user._id}/file/${file._id}`}>
+                    {new Date(file.lastModified as Date).toDateString()}
                   </Link>
                 </TableCell>
                 <Link
@@ -71,8 +72,8 @@ const Files = ({ user }: { user: any }) => {
                   href={
                     file.status === "completed"
                       ? isProduction
-                        ? `https://login.bulkdid.net/download/${file.owner}/${file.filename}_Completed.${file.extentionName}`
-                        : `http://localhost:5000/download/${file.owner}/${file.filename}_Completed.${file.extentionName}`
+                        ? `https://login.bulkdid.net/download/${file.owner}/${file.filename}_Completed.${file.extensionName}`
+                        : `http://localhost:5000/download/${file.owner}/${file.filename}_Completed.${file.extensionName}`
                       : "#"
                   }
                 >

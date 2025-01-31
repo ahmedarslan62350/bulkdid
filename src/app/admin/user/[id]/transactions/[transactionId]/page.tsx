@@ -8,44 +8,53 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { mockTransaction } from "@/utils/dumyData";
+import { Transaction } from "@/utils/types";
 import { ArrowLeft } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { getTransaction } from "@/backendMethods/api-calls";
+import React, { useEffect, useState } from "react";
+
+// Mocked `getTransaction` function for development
+const getTransaction = async (transactionId: string): Promise<Transaction> => {
+  console.log("transactionId", transactionId);
+  return new Promise((resolve) => {
+    setTimeout(() => resolve(mockTransaction), 1000); // Simulate network delay
+  });
+};
 
 const isProduction = process.env.NODE_ENV !== "development";
 
 export default function TransactionPage({
   params,
 }: {
-  params: { userId: string; transactionId: string };
+  params: Promise<{ id: string; transactionId: string }>;
 }) {
-  const [transaction, setTransaction] = useState<any | null>();
+  const { id, transactionId } = React.use(params);
+  const [transaction, setTransaction] = useState<Transaction | null>();
   const [hasImage, setHasImage] = useState(false);
-  const [activeTab, setActiveTab] = useState(hasImage ? "Picture" : "Details");
+  const [activeTab, setActiveTab] = useState("Details");
 
   useEffect(() => {
-    getTransaction(params.transactionId).then((transaction) => {
+    getTransaction(transactionId).then((transaction: Transaction) => {
       setTransaction(transaction);
-      transaction.imageUrl ? setHasImage(true) : null;
+      if (transaction.imageUrl) {
+        setHasImage(true);
+      }
     });
-  }, []);
+  }, [transactionId]);
 
   if (!transaction) {
     return <div>Loading...</div>;
   }
 
-  // Determine if the image exists
-
-  // Tabs state, default to 'Picture' if the image exists, otherwise 'Details'
-
   return (
     <div className="w-full h-full">
-      <Card className="w-full border-none shadow-none mx-auto">
+      <Card className="w-full border-none rounded-none shadow-none mx-auto">
         <CardHeader>
           <div className="flex items-center justify-between">
             <Link
-              href={`/admin/users/${params.userId}`}
+              href={`/admin/user/${id}`}
               className="flex items-center text-sm text-muted-foreground hover:text-primary"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -81,12 +90,18 @@ export default function TransactionPage({
           {/* Picture Tab Content */}
           {activeTab === "Picture" && hasImage && (
             <div className="w-full h-full max-h-60vh flex justify-center items-center">
-              <div className="p-3  overflow-hidden flex justify-center items-center flex-col w-[45%] h-full max-h-[60vh]">
+              <div className="p-3 overflow-hidden flex justify-center items-center flex-col w-[45%] h-full max-h-[60vh]">
                 <div className="w-fit h-full cursor-pointer border-zinc-200 border-[1px] shadow-md overflow-hidden rounded-sm">
-                  <img
-                    src={isProduction ? `https://login.bulkdid.net/download${transaction.imageUrl}` : `http://localhost:5000${transaction.imageUrl}`}
+                  <Image
+                    src={
+                      isProduction
+                        ? `https://login.bulkdid.net/download${transaction.imageUrl}`
+                        : `http://localhost:5000${transaction.imageUrl}`
+                    }
                     alt="Transaction Screenshot"
                     className="w-fit rounded-sm h-full object-cover"
+                    width={100}
+                    height={100}
                   />
                 </div>
               </div>

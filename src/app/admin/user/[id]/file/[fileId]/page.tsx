@@ -3,23 +3,27 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Download } from "lucide-react";
-import { useEffect, useState } from "react";
-import { getFile } from "@/backendMethods/api-calls";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+// Import the mock file
+import { mockFile } from "@/utils/dumyData";
+import { FileDetails } from "@/utils/types";
 
 const isProduction = process.env.NODE_ENV !== "development";
 
 export default function FileDetailsPage({
   params,
 }: {
-  params: { fileId: string };
+  params: Promise<{ fileId: string }>;
 }) {
-  const [file, setFile] = useState<any>(null);
+  const [file, setFile] = useState<FileDetails | null>(null);
+  const { fileId } = React.use(params);
+
   useEffect(() => {
-    getFile(params.fileId).then((file: any) => {
-      setFile(file);
-    });
-  }, []);
+    setTimeout(() => {
+      setFile(mockFile as FileDetails);
+    }, 500);
+  }, [fileId]);
 
   if (!file) {
     return <div>Loading...</div>;
@@ -27,11 +31,11 @@ export default function FileDetailsPage({
 
   return (
     <div className="flex w-full h-full">
-      <Card className="w-full h-full border-none">
+      <Card className="w-full h-full rounded-none border-none">
         <CardHeader>
           <div className="flex items-center justify-between">
             <Link
-              href={`/admin/users/${file.owner}`}
+              href={`/admin/user/${file.owner}`}
               className="flex items-center text-sm text-muted-foreground hover:text-primary"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -56,7 +60,7 @@ export default function FileDetailsPage({
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Last Modified</p>
-              <p>{new Date(file.lastModefied).toLocaleString()}</p>
+              <p>{new Date(file.lastModified as Date).toLocaleString()}</p>
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Status</p>
@@ -70,11 +74,15 @@ export default function FileDetailsPage({
             </div>
             <div>
               <p className="text-sm font-medium text-gray-500">Extension</p>
-              <p>{file.extentionName}</p>
+              <p>{file.extensionName}</p>
             </div>
           </div>
           <Link
-            href={isProduction ? `https://login.bulkdid.net/download/${file.owner}/${file.filename}_Completed.${file.extentionName}` : `http://localhost:5000/download/${file.owner}/${file.filename}_Completed.${file.extentionName}`}
+            href={
+              isProduction
+                ? `https://login.bulkdid.net/download/${file.owner}/${file.filename}_Completed.${file.extensionName}`
+                : `http://localhost:5000/download/${file.owner}/${file.filename}_Completed.${file.extensionName}`
+            }
           >
             <Button className="mt-6">
               <Download className="mr-2 h-4 w-4" />

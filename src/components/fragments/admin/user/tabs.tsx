@@ -1,11 +1,12 @@
 "use client";
 
-import { Transaction } from "@/utils/types";
+import { Transaction, User } from "@/utils/types";
 import General from "./tabContent/General";
 import Security from "./tabContent/Security";
 import Wallet from "./tabContent/Wallet";
 import Transactions from "./tabContent/Transactions";
 import Files from "./tabContent/Files";
+import { ChangeEvent } from "react";
 
 export const tabsHeadings = [
   {
@@ -38,8 +39,8 @@ export const getTabsContent = ({
   handleTransactionStatusChange,
   transactions,
 }: {
-  user: any;
-  handleInputChange: (e: any) => void;
+  user: User;
+  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   handleSwitchChange: (value: string) => void;
   handleTransactionStatusChange: (id: string, value: string) => void;
   transactions: Transaction[];

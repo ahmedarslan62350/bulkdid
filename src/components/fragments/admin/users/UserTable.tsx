@@ -40,6 +40,7 @@ const UserTable = () => {
     replace("/admin/user/1");
     setIsOpen(false);
   };
+  
   const usersAdministrationDropdownConfig = {
     heading: "Open Menu",
     items: [
@@ -61,7 +62,7 @@ const UserTable = () => {
             desc="Are you sure and want to saw this user account"
             handleClick={handleViewDetails}
             title="View customer"
-            buttonClasses="bg-green-500 hover:bg-green-600"
+            variant="default"
           />
         ),
         key: "2",
