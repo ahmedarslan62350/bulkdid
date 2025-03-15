@@ -250,3 +250,21 @@ export interface User {
   isAdmin: boolean;
   isBlocked: boolean;
 }
+
+export interface IUser {
+  _id: ObjectId
+  name: string
+  email: string
+  role: 'admin' | 'user'
+  walletId: ObjectId
+  store: ObjectId
+  isVerified: boolean
+  createdAt?: Date
+  updatedAt?: Date
+  sessions: string[]
+}
+
+export interface ILoginBody {
+  email: string
+  password: string
+}

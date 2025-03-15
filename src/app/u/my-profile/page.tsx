@@ -1,4 +1,4 @@
-import { MyProfile } from "@/components/layout/client/MyProfile"
+import { MyProfile } from "@/components/layout/client/MyProfile";
 
 export default function MyProfilePage() {
   return (
@@ -6,6 +6,5 @@ export default function MyProfilePage() {
       <h1 className="text-4xl font-bold text-primary mb-8">My Profile</h1>
       <MyProfile />
     </div>
-  )
+  );
 }
-

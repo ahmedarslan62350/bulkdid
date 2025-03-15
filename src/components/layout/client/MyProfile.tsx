@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import ChangePasswordDialogBox from "@/components/fragments/client/my-profile/ChangePasswordDialogBox";
+import useAuth from "@/hooks/use-auth";
 
 export function MyProfile() {
   const [isChangePasswordOpen, setIsChangePasswordOpen] = useState(false);
@@ -14,6 +15,7 @@ export function MyProfile() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const handleChangePassword = (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,22 +48,17 @@ export function MyProfile() {
               JD
             </div>
             <div>
-              <h2 className="text-2xl font-bold">John Doe</h2>
-              <p className="text-gray-500">john.doe@example.com</p>
+              <h2 className="text-2xl font-bold">{user?.name}</h2>
+              <p className="text-gray-500">{user?.email}</p>
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="username">Username</Label>
-            <Input id="username" value="johndoe" disabled />
+            <Input id="username" value={user?.name} disabled />
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value="john.doe@example.com"
-              disabled
-            />
+            <Input id="email" type="email" value={user?.email} disabled />
           </div>
         </div>
       </CardContent>

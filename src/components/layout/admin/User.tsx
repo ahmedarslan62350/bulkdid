@@ -126,7 +126,7 @@ export default function User({ user: initialUser }: UserDetailsProps) {
         </div>
         <div className="flex items-center space-x-4">
           <Image
-            src={user.profileImage || "/placeholder.svg?height=200&width=200"}
+            src={user.profileImage || ""}
             alt={`${user.username}'s avatar`}
             className="w-20 h-20 rounded-full"
             width={100}

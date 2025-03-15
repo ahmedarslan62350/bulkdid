@@ -659,7 +659,7 @@ export const user: User = {
   username: "Muhammad Afzal",
   email: "ahmedarslanarslan9@gmail.com",
   password: "$2a$10$dumwWqliHWVLqPOaq2/2g.TEvS6DDDUk36s4E.CTb6ZJg9Hthp30O",
-  profileImage: "https://via.placeholder.com/150",
+  profileImage: "",
   verifyCode: "836044",
   verifyCodeExpiry: "1728617235539",
   verifyCodeLimit: 1,

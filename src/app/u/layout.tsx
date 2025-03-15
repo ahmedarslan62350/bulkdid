@@ -3,7 +3,15 @@
 import React from "react";
 import SideBar from "@/components/fragments/admin/global/SideBar";
 import { SideBarNavItems } from "@/utils/types";
-import { User, File, Upload, Wallet, Crown, DollarSign } from "lucide-react";
+import {
+  User,
+  File,
+  Upload,
+  Wallet,
+  Crown,
+  DollarSign,
+} from "lucide-react";
+import useAuth from "@/hooks/use-auth";
 
 const navItems: SideBarNavItems[] = [
   { href: "/u/my-profile", icon: User, label: "Profile" },
@@ -15,8 +23,14 @@ const navItems: SideBarNavItems[] = [
 ];
 
 const layout = ({ children }: { children: React.ReactNode }) => {
+  const { isLoading, isFetching } = useAuth();
+
+  if (isLoading || isFetching) {
+    return;
+  }
+
   return (
-    <div className="flex w-full blur-[.4px]">
+    <div className="flex w-full">
       <SideBar navItems={navItems} />
       {children}
     </div>
