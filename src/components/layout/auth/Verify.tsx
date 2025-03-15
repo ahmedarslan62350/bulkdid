@@ -61,7 +61,7 @@ export default function Verify() {
 
       router.replace("/auth/login");
     } catch (error: unknown) {
-      const err = error as any;
+      const err = error as { response: { data: { message: string } } };;
 
       toast({
         title: "Error",
@@ -88,7 +88,7 @@ export default function Verify() {
         description: data.message,
       });
     } catch (error: unknown) {
-      const err = error as any;
+      const err = error as { response: { data: { message: string } } };;
 
       toast({
         title: "Error",

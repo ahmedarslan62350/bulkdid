@@ -12,9 +12,7 @@ import {
   Wallet,
   User,
 } from "lucide-react";
-import useAuth from "@/hooks/use-auth";
-import { toast } from "@/hooks/use-toast";
-import { redirect } from "next/navigation";
+import AdminWrapper from "@/components/admin-wrapper";
 
 const navItems: SideBarNavItems[] = [
   { href: "/admin", icon: Users, label: "Admin" },
@@ -27,22 +25,11 @@ const navItems: SideBarNavItems[] = [
 ];
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
-  if (user?.role !== "admin") {
-    toast({
-      title: "Unauthorized",
-      description: "You are not eligible for this",
-      variant: "destructive",
-    });
-
-    redirect("/u/my-profile");
-  }
-  
   return (
     <>
       <div className="flex scroll-smooth">
         <SideBar navItems={navItems} />
-        {children}
+        <AdminWrapper>{children}</AdminWrapper>
       </div>
     </>
   );

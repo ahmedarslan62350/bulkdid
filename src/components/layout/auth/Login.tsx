@@ -56,7 +56,7 @@ export default function Login() {
 
       router.replace("/u/my-profile");
     } catch (error: unknown) {
-      const err = error as any;
+      const err = error as { response: { data: { message: string } } };
 
       toast({
         title: "Error",

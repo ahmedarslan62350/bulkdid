@@ -1,17 +1,14 @@
 "use client";
 
-import useAuth from "@/hooks/use-auth";
-import { redirect } from "next/navigation";
+import AuthWrapper from "@/components/auth-wrapper";
 import React from "react";
 
 const layout = ({ children }: { children: React.ReactNode }) => {
-  const { isLoading, user } = useAuth();
-
-  if (isLoading) return;
-
-  if (user) redirect("/u/my-profile");
-
-  return <div className="flex w-full scroll-smooth">{children}</div>;
+  return (
+    <div className="flex w-full scroll-smooth">
+      <AuthWrapper>{children}</AuthWrapper>
+    </div>
+  );
 };
 
 export default layout;
