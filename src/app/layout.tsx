@@ -4,10 +4,10 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
-import { Provider } from "react-redux";
-import { persistor, store } from "@/redux/stores/user";
+
 import axios from "axios";
-import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { store } from "@/redux/store";
 
 axios.defaults.withCredentials = true;
 
@@ -36,13 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 overflow-hidden scroll-smooth`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 blur-[.5px] overflow-hidden scroll-smooth`}
       >
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            {children}
-          </PersistGate>
-        </Provider>
+        <Provider store={store}>{children}</Provider>
         <Toaster />
       </body>
     </html>

@@ -35,7 +35,7 @@
     "**/*.tsx",                                       // Include all TypeScript JSX files
     ".next/types/**/*.ts",                            // Include Next.js specific type definitions
     "src/utils/global.d.ts"                           // Include your global declarations file
-  ],
+, "src/middleware.js"  ],
   "exclude": [
     "node_modules"                                    // Exclude node_modules folder
   ]

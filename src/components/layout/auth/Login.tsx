@@ -28,12 +28,15 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { loginSchema } from "@/schemas/login";
 import { useRouter } from "next/navigation";
-import { login } from "@/backendMethods/apiCalls";
+import { IBankendError } from "@/utils/types";
+import { loginUser } from "@/redux/slices/authSlice";
+import { useAppDispatch } from "@/redux/hooks/hooks";
 
 type FormValues = z.infer<typeof loginSchema>;
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const form = useForm<FormValues>({
@@ -47,16 +50,10 @@ export default function Login() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     try {
-      const data = await login(values);
-
-      toast({
-        title: "Success",
-        description: data.message,
-      });
-
+      await dispatch(loginUser(values)).unwrap();
       router.replace("/u/my-profile");
     } catch (error: unknown) {
-      const err = error as { response: { data: { message: string } } };
+      const err = error as IBankendError;
 
       toast({
         title: "Error",

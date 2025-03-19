@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { UserFile } from "@/utils/types";
+import { IFile } from "@/utils/types";
 
 export function CustomDialogBox({
   isOpen,
@@ -23,7 +23,7 @@ export function CustomDialogBox({
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
   title?: string;
-  selectedFile?: UserFile | null;
+  selectedFile?: IFile | null;
   submitFunction?: () => void;
   desc?: string;
   variant?: "default" | "destructive";
@@ -34,7 +34,7 @@ export function CustomDialogBox({
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>
-            {desc} &quot;{selectedFile?.realname}
+            {desc} &quot;{selectedFile?.name}
             &quot;? This action cannot be undone.
           </DialogDescription>
         </DialogHeader>

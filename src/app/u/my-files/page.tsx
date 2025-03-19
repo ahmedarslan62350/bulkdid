@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function MyFilesPage() {
   return (
-    <div className="container px-4 py-10">
+    <div className="w-full h-screen overflow-y-auto scroll-smooth px-4 py-10">
       <div className="flex flex-col md:flex-row mb-8 gap-4">
         <h1 className="text-4xl font-bold text-primary">My Files</h1>
         <div className="flex gap-4 w-full md:w-auto">

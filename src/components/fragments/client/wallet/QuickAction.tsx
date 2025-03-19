@@ -17,7 +17,7 @@ export function QuickActions() {
           <ArrowUpFromLine className="h-2 w-2" />
           Withdraw
         </Button>
-        <Button variant="outline" className="flex flex-col items-center h-full">
+        <Button disabled variant="outline" className="flex flex-col items-center h-full">
           <RefreshCw className="h-2 w-2" />
           Transfer
         </Button>

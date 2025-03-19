@@ -29,6 +29,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { register } from "@/backendMethods/apiCalls";
 import { useState } from "react";
+import { IBankendError } from "@/utils/types";
 
 export default function RegisterPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +60,7 @@ export default function RegisterPage() {
 
       router.replace("/auth/verify");
     } catch (error: unknown) {
-      const err = error as { response: { data: { message: string } } };;
+      const err = error as IBankendError
 
       toast({
         title: "Error",

@@ -32,6 +32,7 @@ import { ENV } from "@/config/env";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { verify } from "@/backendMethods/apiCalls";
+import { IBankendError } from "@/utils/types";
 
 const resend_URL = `${ENV.BACKEND_URL}/auth/resend`;
 
@@ -61,7 +62,7 @@ export default function Verify() {
 
       router.replace("/auth/login");
     } catch (error: unknown) {
-      const err = error as { response: { data: { message: string } } };;
+      const err = error as IBankendError
 
       toast({
         title: "Error",
@@ -88,7 +89,7 @@ export default function Verify() {
         description: data.message,
       });
     } catch (error: unknown) {
-      const err = error as { response: { data: { message: string } } };;
+      const err = error as IBankendError
 
       toast({
         title: "Error",

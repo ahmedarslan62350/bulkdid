@@ -165,11 +165,19 @@ export interface RecentTransaction {
 }
 
 export interface RecentTransactionsProps {
-  transactions: RecentTransaction[];
+  transactions: ITransaction[];
+  currentPage: number;
+  totalPages?: number;
+  itemsPerPage: number;
+  onPageChange: (page: number) => void;
+  onItemsPerPageChange: (items: number) => void;
 }
 
 export interface FileUploadProps {
   onFileUpload: (file: File) => void;
+  setRoleValue: (value: "both" | "fetching" | "checking") => void;
+  roleValue: "both" | "fetching" | "checking";
+  user: IUser;
 }
 
 export interface ManualInputProps {
@@ -251,20 +259,79 @@ export interface User {
   isBlocked: boolean;
 }
 
+export interface IBankendError {
+  response: { data: { message: string } };
+}
+
 export interface IUser {
-  _id: ObjectId
-  name: string
-  email: string
-  role: 'admin' | 'user'
-  walletId: ObjectId
-  store: ObjectId
-  isVerified: boolean
-  createdAt?: Date
-  updatedAt?: Date
-  sessions: string[]
+  _id: ObjectId;
+  name: string;
+  email: string;
+  role: "admin" | "user";
+  walletId: ObjectId;
+  store: ObjectId;
+  isVerified: boolean;
+  isAllowedToFetch: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
+  sessions: string[];
 }
 
 export interface ILoginBody {
-  email: string
-  password: string
+  email: string;
+  password: string;
+}
+
+export interface IFile {
+  _id: ObjectId;
+  ownerId: ObjectId;
+  name: string;
+  size: number;
+  state: "pending" | "processing" | "completed" | "failed";
+  totalCallerIds: number;
+  callerIds: number[];
+  type: "xlsx" | "csv" | ".csv" | ".xlsx";
+  role: "checking-status" | "fetching" | "both";
+  downloads: number;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IWallet {
+  _id: ObjectId;
+  ownerId: ObjectId;
+  totalTransactions: number;
+  balance: number;
+  withdraws: number;
+  deposits: number;
+  accountNumber: string;
+  BAT: number;
+  BBT: number;
+  transactions: ObjectId[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ITransaction {
+  _id: ObjectId;
+  comment: string;
+  walletId: ObjectId;
+  amount: number;
+  type: "deposit" | "withdraw";
+  to: string;
+  from: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IBank {
+  _id: ObjectId;
+  name: string;
+  accountHolderName: string;
+  accountNumber: number;
+  icon: string;
+  iconWidth: number;
+  iconHeight: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

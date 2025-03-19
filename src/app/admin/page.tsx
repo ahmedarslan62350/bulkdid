@@ -5,7 +5,7 @@ import useAuth from "@/hooks/use-auth";
 import { toast } from "@/hooks/use-toast";
 import { redirect } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const { user } = useAuth();
   if (user?.role !== "admin") {
     toast({
@@ -25,4 +25,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

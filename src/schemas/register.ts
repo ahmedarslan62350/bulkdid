@@ -15,3 +15,7 @@ export const registerSchema = z.object({
   }),
   accountNumber:z.string().min(10, "Number must be at least 10 characters").max(15, "Number must not more than 15 characters")
 })
+.refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+})

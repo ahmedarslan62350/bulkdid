@@ -6,10 +6,18 @@ import { ManualInput } from "@/components/fragments/client/upload/Input";
 import { Button } from "@/components/ui/button";
 import { mergeAndCreateFile } from "@/app/u/upload/actions";
 import { useToast } from "@/hooks/use-toast";
+import { uploadFile } from "@/backendMethods/apiCalls";
+import useAuth from "@/hooks/use-auth";
+import { IBankendError } from "@/utils/types";
 
 export default function CallerIdUploadPage() {
+  const { user } = useAuth();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [manualCallerIds, setManualCallerIds] = useState<string[]>([]);
+  const [roleValue, setRoleValue] = useState<"both" | "fetching" | "checking">(
+    "checking"
+  );
+
   const { toast } = useToast();
 
   const handleFileUpload = (file: File) => {
@@ -34,27 +42,32 @@ export default function CallerIdUploadPage() {
       const formData = new FormData();
       if (uploadedFile) {
         formData.append("file", uploadedFile);
+        formData.append("role", roleValue);
       }
       formData.append("manualCallerIds", JSON.stringify(manualCallerIds));
 
-      const result = await mergeAndCreateFile(formData);
+      const data = await mergeAndCreateFile(formData);
 
-      if (result.success) {
+      if (data) {
+        await uploadFile(formData);
+
         toast({
           title: "Success",
           description: "Caller IDs merged and file created successfully.",
         });
-        // Reset the form
+
         setUploadedFile(null);
         setManualCallerIds([]);
+        return;
       } else {
-        throw new Error(result.error);
+        throw new Error("Somethig went wrong");
       }
     } catch (error) {
+      const err = error as IBankendError;
+
       toast({
         title: "Error",
-        description:
-          error instanceof Error ? error.message : "An unknown error occurred",
+        description: err?.response?.data?.message || "Something went wrong!",
         variant: "destructive",
       });
     }
@@ -64,12 +77,17 @@ export default function CallerIdUploadPage() {
     <div className="container px-4 py-10 space-y-8">
       <h1 className="text-4xl font-bold text-primary">Caller ID Management</h1>
       <div className="grid gap-8 md:grid-cols-2">
-        <FileUpload onFileUpload={handleFileUpload} />
+        <FileUpload
+          onFileUpload={handleFileUpload}
+          roleValue={roleValue}
+          setRoleValue={setRoleValue}
+          user={user}
+        />
         <ManualInput onManualInput={handleManualInput} />
       </div>
       <div className="flex justify-center">
         <Button onClick={handleSubmit} className="w-full md:w-auto">
-          Merge and Create File
+          Merge and Upload File
         </Button>
       </div>
     </div>

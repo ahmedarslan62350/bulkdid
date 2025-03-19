@@ -1,24 +1,37 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { FileUploadProps } from '@/utils/types'
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { FileUploadProps } from "@/utils/types";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-export function FileUpload({ onFileUpload }: FileUploadProps) {
-  const [file, setFile] = useState<File | null>(null)
+export function FileUpload({
+  onFileUpload,
+  setRoleValue,
+  roleValue,
+  user,
+}: FileUploadProps) {
+  const [file, setFile] = useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0]
-    if (selectedFile && selectedFile.name.endsWith('.xlsx')) {
-      setFile(selectedFile)
-      onFileUpload(selectedFile)
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile && selectedFile.name.endsWith(".xlsx")) {
+      setFile(selectedFile);
+      onFileUpload(selectedFile);
     } else {
-      alert('Please select a valid .xlsx file')
-      event.target.value = ''
+      alert("Please select a valid .xlsx file");
+      event.target.value = "";
     }
-  }
+  };
 
   return (
     <Card>
@@ -35,6 +48,20 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
               accept=".xlsx"
               onChange={handleFileChange}
             />
+            {user?.isAllowedToFetch && (
+              <Select onValueChange={setRoleValue} value={roleValue}>
+                <SelectTrigger>
+                  <SelectValue placeholder={"Select the role"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="both">Both</SelectItem>
+                    <SelectItem value="fetching">Fetching</SelectItem>
+                    <SelectItem value="checking">Checking</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
           </div>
           {file && (
             <p className="text-sm text-muted-foreground">
@@ -44,6 +71,5 @@ export function FileUpload({ onFileUpload }: FileUploadProps) {
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
-
