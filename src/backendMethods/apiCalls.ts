@@ -8,7 +8,6 @@ import { z } from "zod";
 
 export async function login(values: z.infer<typeof loginSchema>) {
   const { data } = await axios.post(ENV.BACKEND_URL + "/auth/login", values);
-  console.log("DATA", data);
   return data;
 }
 

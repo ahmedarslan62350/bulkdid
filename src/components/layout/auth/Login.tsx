@@ -49,8 +49,7 @@ export default function Login() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     try {
-      const res = await dispatch(loginUser(values)).unwrap();
-      console.log(res);
+      await dispatch(loginUser(values)).unwrap();
       router.replace("/u/my-profile");
     } catch (error: unknown) {
       toast({

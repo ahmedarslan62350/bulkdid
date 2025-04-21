@@ -41,7 +41,6 @@ export default function AddNewBankPage({
   });
 
   async function onSubmit(values: z.infer<typeof addBankSchema>) {
-    console.log(values);
     setIsSubmitting(true);
     try {
       const { data } = await axiosInstance.post(

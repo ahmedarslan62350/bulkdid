@@ -49,11 +49,13 @@ const AnalyticsTab = () => {
         <Input
           type="number"
           id="logs-retention"
-          defaultValue={Number(settings.LOGS_PERCISTENT_FREQUENCY_IN_DAYS.replace(/\D/g, ""))}
+          defaultValue={Number(
+            settings.LOGS_PERCISTENT_FREQUENCY_IN_DAYS.replace(/\D/g, "")
+          )}
           onChange={(e) =>
             handleUpdateSettings(
               "LOGS_PERCISTENT_FREQUENCY_IN_DAYS",
-              e.target.value
+              e.target.value + "d"
             )
           }
         />

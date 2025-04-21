@@ -30,8 +30,6 @@ export function Chart({
     keyof typeof config.chartConfig
   >(config.chartEntries[0]);
 
-  console.log(chartData);
-
   const total = React.useMemo(
     () =>
       Object.fromEntries(

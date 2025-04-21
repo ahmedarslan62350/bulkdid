@@ -26,18 +26,16 @@ const TransactionTable = () => {
   ] = useState(false);
 
   const handleDelete = (
-    e: MouseEvent<HTMLButtonElement>,
+    _: MouseEvent<HTMLButtonElement>,
     setIsOpen: Dispatch<SetStateAction<boolean>>
   ) => {
-    console.log(e);
     setIsOpen(false);
   };
 
   const handleViewDetails = (
-    e: MouseEvent<HTMLButtonElement>,
+    _: MouseEvent<HTMLButtonElement>,
     setIsOpen: Dispatch<SetStateAction<boolean>>
   ) => {
-    console.log(e);
     replace("/admin/transactions/1");
     setIsOpen(false);
   };

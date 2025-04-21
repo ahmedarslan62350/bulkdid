@@ -22,7 +22,6 @@ const Transactions = ({
   handleTransactionStatusChange: (id: string, value: string) => void;
   transactions: ITransaction[];
 }) => {
-  console.log(transactions)
   return (
     <div className="space-y-4">
       <h3 className="text-lg font-semibold">Recent Transactions</h3>

@@ -114,7 +114,7 @@ const UserTab = () => {
           id="session-timeout"
           defaultValue={Number(settings.SESSION_TIMEOUT.replace(/\D/g, ""))}
           onChange={(e) =>
-            handleUpdateSettings("SESSION_TIMEOUT", e.target.value)
+            handleUpdateSettings("SESSION_TIMEOUT", e.target.value + "m")
           }
         />
       </div>

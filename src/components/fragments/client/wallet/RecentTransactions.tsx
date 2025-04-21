@@ -31,8 +31,6 @@ export function RecentTransactions({
   onPageChange,
   onItemsPerPageChange,
 }: RecentTransactionsProps) {
-  console.log(transactions);
-
   const getIcon = (type: ITransaction["type"]) => {
     switch (type) {
       case "deposit":
