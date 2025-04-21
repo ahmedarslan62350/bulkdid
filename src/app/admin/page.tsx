@@ -1,12 +1,14 @@
 "use client";
 
 import Users from "@/components/layout/admin/Users";
-import useAuth from "@/hooks/use-auth";
 import { toast } from "@/hooks/use-toast";
+import { RootState } from "@/redux/combinedStores";
+import { IUser } from "@/utils/types";
 import { redirect } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const Page = () => {
-  const { user } = useAuth();
+  const user = useSelector((state: RootState) => state.auth.user) as IUser;
   if (user?.role !== "admin") {
     toast({
       title: "Unauthorized",

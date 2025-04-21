@@ -1,30 +1,40 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Transaction, User } from "@/utils/types";
-import { getTabsContent, tabsHeadings } from "./tabs";
+import { IStore, IUser, IWallet, Transaction } from "@/utils/types";
+import { tabsHeadings, useGetTabsContent } from "./tabs";
 
 const UserTabs = ({
   user,
+  wallet,
+  store,
   handleInputChange,
   isEditing,
   handleSwitchChange,
   handleTransactionStatusChange,
   transactions,
 }: {
-  user: User;
-  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  user: IUser;
+  wallet: IWallet;
+  store: IStore;
+  handleInputChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
+  ) => void;
   handleSwitchChange: (value: string) => void;
   handleTransactionStatusChange: (id: string, value: string) => void;
   transactions: Transaction[];
   isEditing: boolean;
 }) => {
-  const tabsContent = getTabsContent({
+  const tabsContent = useGetTabsContent({
     user,
     handleInputChange,
     isEditing,
     handleSwitchChange,
     handleTransactionStatusChange,
     transactions,
+    wallet,
+    store,
   });
 
   return (
@@ -36,7 +46,7 @@ const UserTabs = ({
           </TabsTrigger>
         ))}
       </TabsList>
-      {tabsContent.map((e, i) => (
+      {tabsContent?.map((e, i) => (
         <TabsContent key={`${i}${e.value}`} value={e.value}>
           {e.content}
         </TabsContent>

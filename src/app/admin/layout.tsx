@@ -27,10 +27,12 @@ const navItems: SideBarNavItems[] = [
 const layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="flex scroll-smooth">
-        <SideBar navItems={navItems} />
-        <AdminWrapper>{children}</AdminWrapper>
-      </div>
+      <AdminWrapper>
+        <div className="flex scroll-smooth">
+          <SideBar navItems={navItems} />
+          {children}
+        </div>
+      </AdminWrapper>
     </>
   );
 };

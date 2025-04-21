@@ -1,27 +1,36 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Download, Trash2, FileSpreadsheet, Loader2 } from "lucide-react";
+import { Download, Trash2, FileSpreadsheet } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { IBankendError, IFile } from "@/utils/types";
 import { CustomDialogBox } from "@/components/fragments/client/global/CustomDialogBox";
-import useGetFiles from "@/hooks/use-get-files";
-import { classNames } from "@/utils/constants";
 import { downloadFile } from "@/backendMethods/apiCalls";
 import { toast } from "@/hooks/use-toast";
+import { useSelector } from "react-redux";
+import { RootState as UserRootState } from "@/redux/combinedStores";
+import { useUserAppDispatch } from "@/redux/hooks/userHooks";
+import { getFiles } from "@/redux/slices/userSlice";
+import { useCheckAuth } from "@/hooks/useCheckAuth";
 
 export function FileList() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [downloadDialogOpen, setDownloadDialogOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState<IFile | null>(null);
+  const dispatch = useUserAppDispatch();
+  const checkAuth = useCheckAuth();
+  const userState = useSelector((state: UserRootState) => state.user);
+  let files = userState?.files as IFile[];
 
-  const { isFetching, isLoading, files } = useGetFiles();
-
-  if (isFetching || isLoading) {
-    return <Loader2 className={classNames.loader2} />;
-  }
+  useEffect(() => {
+    if (!files || files.length === 0) {
+      dispatch(getFiles()).then(({ payload }) => {
+        checkAuth(payload);
+      });
+    }
+  }, [dispatch, checkAuth, files]);
 
   const handleDelete = (file: IFile) => {
     setSelectedFile(file);
@@ -49,7 +58,7 @@ export function FileList() {
         const a = document.createElement("a");
 
         a.href = url;
-        a.download = selectedFile.name; 
+        a.download = selectedFile.name;
 
         document.body.appendChild(a);
         a.click();
@@ -60,7 +69,7 @@ export function FileList() {
         });
       }
     } catch (error: unknown) {
-      const err = error as IBankendError
+      const err = error as IBankendError;
       toast({
         title: "Error",
         description: err?.response?.data?.message || "Something went wrong!",
@@ -75,7 +84,7 @@ export function FileList() {
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-screen overflow-y-auto scroll-smooth">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto scroll-smooth">
         {files?.map((file) => {
           return (
             <Card

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +24,7 @@ const page = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "Something went wrong",
+        description: (error as string) || "Something went wrong",
         variant: "destructive",
       });
     }

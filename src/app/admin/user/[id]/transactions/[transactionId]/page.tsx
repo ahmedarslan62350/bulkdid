@@ -8,22 +8,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { mockTransaction } from "@/utils/dumyData";
-import { Transaction } from "@/utils/types";
+import { AppDispatch, RootState } from "@/redux/combinedStores";
+import { getTransactionsByAdmin } from "@/redux/slices/adminSlice";
+import { ITransaction } from "@/utils/types";
 import { ArrowLeft } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-
-// Mocked `getTransaction` function for development
-const getTransaction = async (transactionId: string): Promise<Transaction> => {
-  console.log("transactionId", transactionId);
-  return new Promise((resolve) => {
-    setTimeout(() => resolve(mockTransaction), 1000); // Simulate network delay
-  });
-};
-
-const isProduction = process.env.NODE_ENV !== "development";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function TransactionPage({
   params,
@@ -31,18 +22,28 @@ export default function TransactionPage({
   params: Promise<{ id: string; transactionId: string }>;
 }) {
   const { id, transactionId } = React.use(params);
-  const [transaction, setTransaction] = useState<Transaction | null>();
-  const [hasImage, setHasImage] = useState(false);
+  const [transaction, setTransaction] = useState<ITransaction | null>();
+  const [hasImage] = useState(false);
   const [activeTab, setActiveTab] = useState("Details");
+  const transactions = useSelector(
+    (state: RootState) => state.admin.transactions
+  );
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    getTransaction(transactionId).then((transaction: Transaction) => {
-      setTransaction(transaction);
-      if (transaction.imageUrl) {
-        setHasImage(true);
+    if (!transactions.length) {
+      dispatch(getTransactionsByAdmin());
+    }
+  }, [dispatch, transactions]);
+
+  useEffect(() => {
+    if (transactions.length && transactionId) {
+      const found = transactions.find((e) => e._id === transactionId);
+      if (found) {
+        setTransaction(found);
       }
-    });
-  }, [transactionId]);
+    }
+  }, [transactions, transactionId]);
 
   if (!transaction) {
     return <div>Loading...</div>;
@@ -92,17 +93,17 @@ export default function TransactionPage({
             <div className="w-full h-full max-h-60vh flex justify-center items-center">
               <div className="p-3 overflow-hidden flex justify-center items-center flex-col w-[45%] h-full max-h-[60vh]">
                 <div className="w-fit h-full cursor-pointer border-zinc-200 border-[1px] shadow-md overflow-hidden rounded-sm">
-                  <Image
+                  {/* <Image
                     src={
                       isProduction
-                        ? `https://login.bulkdid.net/download${transaction.imageUrl}`
-                        : `http://localhost:5000${transaction.imageUrl}`
+                        ? `https://login.bulkdid.net/download${transaction?.imageUrl}`
+                        : `http://localhost:5000${transaction?.imageUrl}`
                     }
                     alt="Transaction Screenshot"
                     className="w-fit rounded-sm h-full object-cover"
                     width={100}
                     height={100}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
@@ -121,11 +122,13 @@ export default function TransactionPage({
               </div>
               <div>
                 <Label>Status</Label>
-                <p>{transaction.status}</p>
+                <p>Fulfilled</p>
               </div>
               <div>
                 <Label>Date</Label>
-                <p>{transaction.timeStamp.toLocaleString()}</p>
+                <p>
+                  {new Date(transaction.createdAt as Date).toLocaleString()}
+                </p>
               </div>
               <div>
                 <Label>From</Label>
@@ -136,31 +139,23 @@ export default function TransactionPage({
                 <p>{transaction.to}</p>
               </div>
               <div>
-                <Label>Bank Account</Label>
-                <p>{transaction.bankAccount}</p>
-              </div>
-              <div>
                 <Label>Account Holder</Label>
-                <p>{transaction.accountHolderName}</p>
+                <p>{transaction.walletId}</p>
               </div>
-              <div>
-                <Label>Bank</Label>
-                <p>{transaction.bank}</p>
-              </div>
-              <div>
+              {/* <div>
                 <Label>BBT</Label>
                 <p>
                   <span className="font-bold">$</span>{" "}
                   {transaction.BBT.toFixed(3)}
                 </p>
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <Label>BAT</Label>
                 <p>
                   <span className="font-bold">$</span>{" "}
                   {transaction.BAT.toFixed(3)}
                 </p>
-              </div>
+              </div> */}
             </div>
           )}
 

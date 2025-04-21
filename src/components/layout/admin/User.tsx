@@ -6,24 +6,36 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { ArrowLeft, Edit2, Save } from "lucide-react";
 import Link from "next/link";
-// import { User } from "@/models/user.model";
-// import { Wallet } from "@/models/wallet.model";
 import axios from "axios";
 import { toast } from "@/hooks/use-toast";
 import UserTabs from "@/components/fragments/admin/user/UserTabs";
-import { Transaction, UserDetailsProps } from "@/utils/types";
-import Image from "next/image";
+import {
+  IBankendError,
+  IStore,
+  IUser,
+  IWallet,
+  Transaction,
+  UserDetailsProps,
+} from "@/utils/types";
+import { ENV } from "@/config/env";
 
-export default function User({ user: initialUser }: UserDetailsProps) {
+export default function User({
+  user: initialUser,
+  store: initialStore,
+  wallet: initialWallet,
+}: {
+  user: IUser;
+  store: IStore;
+  wallet: IWallet;
+}) {
   const [user, setUser] = useState(initialUser);
+  const [wallet, setWallet] = useState(initialWallet);
+  const [store, setStore] = useState(initialStore);
   const [isEditing, setIsEditing] = useState(false);
 
   const [transactions, setTransactions] = useState<Transaction[]>(
@@ -31,27 +43,29 @@ export default function User({ user: initialUser }: UserDetailsProps) {
   );
 
   const toggleEdit = () => setIsEditing(!isEditing);
-  console.log(initialUser);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
   ) => {
     const { name, value } = e.target;
     if (name.includes("walletId")) {
-      setUser((prevUser: UserDetailsProps["user"]) => ({
-        ...prevUser,
-        walletId: {
-          ...prevUser.walletId,
-          [name.replace("walletId.", "")]: value,
-        },
-      }));
+      setWallet((prev) => ({ ...prev, [name.split(".")[1]]: value }));
       return;
     }
 
-    setUser((prevUser: UserDetailsProps["user"]) => ({
-      ...prevUser,
-      [name]: value,
-    }));
+    if (name.includes("storeId") || name.includes("store")) {
+      setStore((prev) => ({ ...prev, [name.split(".")[1]]: value }));
+      return;
+    }
+
+    setUser((prevUser: UserDetailsProps["user"]) => {
+      return {
+        ...prevUser,
+        [name]: value,
+      };
+    });
   };
 
   const handleSwitchChange = (name: string) => {
@@ -63,26 +77,29 @@ export default function User({ user: initialUser }: UserDetailsProps) {
 
   const handleSave = async () => {
     try {
-      const { data } = await axios.put("/api/admin/user", {
-        updatedUser: user,
-      });
-      console.log(data);
-      if (data?.success === false) {
-        toast({
-          title: "Error",
-          description: data.message,
-          duration: 5000,
-        });
-        return;
-      }
+      const { data } = await axios.post(
+        ENV.BACKEND_URL + "/admin/update-user",
+        {
+          user,
+          wallet,
+          store,
+        }
+      );
       toggleEdit();
       toast({
         title: "Success",
-        description: "User updated successfully",
+        description: data.message,
         duration: 5000,
       });
-    } catch (error) {
-      console.log(error);
+    } catch (error: unknown) {
+      const err = error as IBankendError;
+      toast({
+        title: "Error",
+        description: err.response.data.message,
+        duration: 5000,
+        variant: "destructive",
+      });
+      return;
     }
   };
 
@@ -102,7 +119,7 @@ export default function User({ user: initialUser }: UserDetailsProps) {
   };
 
   return (
-    <Card className="w-full rounded-none border-none shadow-none">
+    <Card className="w-full h-screen overflow-y-auto rounded-none border-none shadow-none">
       <CardHeader>
         <div className="flex items-center justify-between">
           <Link
@@ -125,15 +142,8 @@ export default function User({ user: initialUser }: UserDetailsProps) {
           )}
         </div>
         <div className="flex items-center space-x-4">
-          <Image
-            src={user.profileImage || ""}
-            alt={`${user.username}'s avatar`}
-            className="w-20 h-20 rounded-full"
-            width={100}
-            height={100}
-          />
           <div>
-            <CardTitle>{user.username}</CardTitle>
+            <CardTitle>{user.name}</CardTitle>
             <CardDescription>{user.email}</CardDescription>
           </div>
         </div>
@@ -146,20 +156,10 @@ export default function User({ user: initialUser }: UserDetailsProps) {
           isEditing={isEditing}
           transactions={transactions}
           user={user}
+          wallet={wallet}
+          store={store}
         />
       </CardContent>
-      <CardFooter>
-        <div className="flex items-center space-x-2">
-          <Label>Logged in with credentials:</Label>
-          <Switch
-            checked={user.isLoggedInWithCredentials}
-            onCheckedChange={() =>
-              handleSwitchChange("isLoggedInWithCredentials")
-            }
-            disabled={!isEditing}
-          />
-        </div>
-      </CardFooter>
     </Card>
   );
 }

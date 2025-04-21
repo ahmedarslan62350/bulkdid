@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import axios from "axios";
 import { Provider } from "react-redux";
-import { store } from "@/redux/store";
+import { rootStore } from "@/redux/combinedStores";
 
 axios.defaults.withCredentials = true;
 
@@ -38,7 +38,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 blur-[.5px] overflow-hidden scroll-smooth`}
       >
-        <Provider store={store}>{children}</Provider>
+        <Provider store={rootStore}>{children}</Provider>
         <Toaster />
       </body>
     </html>

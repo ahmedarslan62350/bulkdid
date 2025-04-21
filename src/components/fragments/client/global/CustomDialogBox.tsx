@@ -19,12 +19,16 @@ export function CustomDialogBox({
   submitFunction,
   desc,
   variant = "default",
+  isFile = true,
+  cancelFunction,
 }: {
   isOpen: boolean;
+  isFile: boolean;
   setIsOpen: (open: boolean) => void;
   title?: string;
   selectedFile?: IFile | null;
   submitFunction?: () => void;
+  cancelFunction?: () => void;
   desc?: string;
   variant?: "default" | "destructive";
 }) {
@@ -39,12 +43,19 @@ export function CustomDialogBox({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>
+          <Button
+            variant="outline"
+            onClick={() => (cancelFunction ? cancelFunction() : setIsOpen(false))}
+          >
             Cancel
           </Button>
           <Button
             variant={variant}
-            onClick={() => selectedFile && submitFunction && submitFunction()}
+            onClick={() =>
+              isFile
+                ? selectedFile && submitFunction && submitFunction()
+                : submitFunction && submitFunction()
+            }
           >
             {title}
           </Button>

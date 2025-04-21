@@ -2,8 +2,19 @@
 
 import React from "react";
 import SideBar from "@/components/fragments/admin/global/SideBar";
-import { SideBarNavItems } from "@/utils/types";
-import { User, File, Upload, Wallet, DollarSign, Settings } from "lucide-react";
+import { IUser, SideBarNavItems } from "@/utils/types";
+import {
+  User,
+  File,
+  Upload,
+  Wallet,
+  DollarSign,
+  Settings,
+  Crown,
+} from "lucide-react";
+import { RootState } from "@/redux/combinedStores";
+import { useSelector } from "react-redux";
+import AuthWrapper from "@/components/auth-wrapper";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   // Ensure hooks are always called in the same order
@@ -15,11 +26,22 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     { href: "/u/transactions", icon: DollarSign, label: "Transactions" },
     { href: "/u/settings", icon: Settings, label: "Settings" },
   ];
+
+  const user = useSelector(
+    (state: RootState) => state.auth?.user
+  ) as IUser | null;
+
+  if (user?.role === "admin") {
+    items.push({ href: "/admin", icon: Crown, label: "Admin" });
+  }
+
   return (
-    <div className="flex w-full">
-      <SideBar navItems={items} />
-      {children}
-    </div>
+    <AuthWrapper>
+      <div className="flex w-full">
+        <SideBar navItems={items} />
+        {children}
+      </div>
+    </AuthWrapper>
   );
 };
 export default Layout;

@@ -1,7 +1,6 @@
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { User } from "@/utils/types";
+import { IUser } from "@/utils/types";
 import { ChangeEvent } from "react";
 
 const General = ({
@@ -9,7 +8,7 @@ const General = ({
   handleInputChange,
   isEditing,
 }: {
-  user: User;
+  user: IUser;
   handleInputChange: (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -22,8 +21,8 @@ const General = ({
           <Label htmlFor="username">Username</Label>
           <Input
             id="username"
-            name="username"
-            value={user.username}
+            name="name"
+            value={user.name}
             onChange={handleInputChange}
             disabled={!isEditing}
           />
@@ -35,7 +34,7 @@ const General = ({
             name="email"
             value={user.email}
             onChange={handleInputChange}
-            disabled={!isEditing}
+            disabled={true}
           />
         </div>
         <div>
@@ -53,11 +52,7 @@ const General = ({
           <Input
             id="walletId"
             name="walletId"
-            value={
-              typeof user.walletId == "object"
-                ? user.walletId._id.toString()
-                : ""
-            }
+            value={user.walletId}
             onChange={handleInputChange}
             disabled={!isEditing}
           />
@@ -65,25 +60,15 @@ const General = ({
         <div>
           <Label>Created At</Label>
           <p className="text-sm text-zinc-500">
-            {new Date(user.createdAt).toDateString()}
+            {new Date(user.createdAt as Date).toDateString()}
           </p>
         </div>
         <div>
           <Label>Updated At</Label>
           <p className="text-sm text-zinc-500">
-            {new Date(user.updatedAt).toDateString()}
+            {new Date(user.updatedAt as Date).toDateString()}
           </p>
         </div>
-      </div>
-      <div>
-        <Label htmlFor="bio">Bio</Label>
-        <Textarea
-          id="bio"
-          name="bio"
-          value={user.bio}
-          onChange={handleInputChange}
-          disabled={!isEditing}
-        />
       </div>
     </div>
   );

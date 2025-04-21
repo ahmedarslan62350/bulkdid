@@ -10,14 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Dispatch, MouseEvent, SetStateAction, useState } from "react";
+import { Dispatch, MouseEvent, SetStateAction } from "react";
 
 export function DeleteLikeDialogBox({
   title,
   desc,
   handleClick,
   buttonClasses,
-  variant = "destructive"
+  variant = "destructive",
+  isOpen,
+  setIsOpen,
 }: {
   title: string;
   desc: string;
@@ -26,13 +28,13 @@ export function DeleteLikeDialogBox({
     e: MouseEvent<HTMLButtonElement>,
     setIsOpen: Dispatch<SetStateAction<boolean>>
   ) => void;
-  variant?: "destructive" | "default"; 
+  variant?: "destructive" | "default";
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
+      <DialogTrigger className="hidden" asChild>
         <p className="relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&>svg]:size-4 [&>svg]:shrink-0 hover:bg-gray-100">
           {title}
         </p>
@@ -43,19 +45,17 @@ export function DeleteLikeDialogBox({
           <DialogDescription>{desc}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button
-            variant={"outline"}
-            onClick={() => setIsOpen(false)}
-          >
+          <Button variant={"outline"} onClick={() => setIsOpen(false)}>
             Cancel
           </Button>
           <Button
             className={buttonClasses}
             type="submit"
             variant={variant}
-            onClick={(e: MouseEvent<HTMLButtonElement>) =>
-              handleClick(e, setIsOpen)
-            }
+            onClick={(e) => {
+              setIsOpen(false);
+              handleClick(e, setIsOpen);
+            }}
           >
             {title}
           </Button>

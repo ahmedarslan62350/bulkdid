@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -34,9 +35,14 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import type { IBank, IBankendError } from "@/utils/types";
-import useGetBanks from "@/hooks/use-get-banks";
 import { transactionSchema } from "@/schemas/transactionSchema";
 import { reqTransaction } from "@/backendMethods/apiCalls";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/combinedStores";
+import { useUserAppDispatch } from "@/redux/hooks/userHooks";
+import { useCheckAuth } from "@/hooks/useCheckAuth";
+import { getBanks } from "@/redux/slices/userSlice";
+import Image from "next/image";
 
 // Define form schema with Zod
 
@@ -46,9 +52,19 @@ export function TransactionForm() {
   const [selectedAccount, setSelectedAccount] = useState<IBank | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const { toast } = useToast();
-  const { banks } = useGetBanks();
 
-  // Initialize form
+  const dispatch = useUserAppDispatch();
+  const checkAuth = useCheckAuth();
+  const banks = useSelector((state: RootState) => state.user.banks) as IBank[];
+
+  useEffect(() => {
+    if (!banks || banks.length === 0) {
+      dispatch(getBanks()).then(({ payload }) => {
+        checkAuth(payload);
+      });
+    }
+  }, [dispatch, checkAuth, banks]);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
@@ -66,7 +82,7 @@ export function TransactionForm() {
   useEffect(() => {
     if (selectedAccountId) {
       const account =
-        banks.find((acc) => acc._id === selectedAccountId) || null;
+        banks.find((acc) => acc.name === selectedAccountId) || null;
       setSelectedAccount(account);
     } else {
       setSelectedAccount(null);
@@ -232,11 +248,30 @@ export function TransactionForm() {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {banks?.map((account) => (
-                            <SelectItem key={account._id} value={account._id}>
-                              {account.name}
-                            </SelectItem>
-                          ))}
+                          {banks &&
+                            banks.map((account) => (
+                              <SelectItem
+                                key={account.name}
+                                value={account.name}
+                              >
+                                {account.icon ? (
+                                  <>
+                                    <div className="flex items-center gap-2 w-full h-full">
+                                      <img
+                                        className={`flex justify-center rounded items-center`}
+                                        alt="icon"
+                                        src={account.icon}
+                                        width={account.iconWidth}
+                                        height={account.iconHeight}
+                                      />
+                                      <p>{account.name}</p>
+                                    </div>
+                                  </>
+                                ) : (
+                                  account.name
+                                )}
+                              </SelectItem>
+                            ))}
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -311,6 +346,7 @@ export function TransactionForm() {
                   <FormField
                     control={form.control}
                     name="file"
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     render={({ field: { value, onChange, ...fieldProps } }) => (
                       <FormItem>
                         <FormLabel>Upload Receipt</FormLabel>
@@ -344,10 +380,12 @@ export function TransactionForm() {
 
                             {imagePreview && (
                               <div className="relative">
-                                <img
+                                <Image
                                   src={imagePreview || "/placeholder.svg"}
                                   alt="Receipt preview"
                                   className="w-full h-auto max-h-[200px] object-contain rounded-md border"
+                                  width={100}
+                                  height={100}
                                 />
                                 <Button
                                   type="button"

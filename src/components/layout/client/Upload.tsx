@@ -7,11 +7,12 @@ import { Button } from "@/components/ui/button";
 import { mergeAndCreateFile } from "@/app/u/upload/actions";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/backendMethods/apiCalls";
-import useAuth from "@/hooks/use-auth";
-import { IBankendError } from "@/utils/types";
+import { IBankendError, IUser } from "@/utils/types";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/combinedStores";
+import { useRouter } from "next/navigation";
 
 export default function CallerIdUploadPage() {
-  const { user } = useAuth();
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [manualCallerIds, setManualCallerIds] = useState<string[]>([]);
   const [roleValue, setRoleValue] = useState<"both" | "fetching" | "checking">(
@@ -19,6 +20,11 @@ export default function CallerIdUploadPage() {
   );
 
   const { toast } = useToast();
+  const router = useRouter();
+
+  const user = useSelector(
+    (state: RootState) => state.auth.user
+  ) as IUser | null;
 
   const handleFileUpload = (file: File) => {
     setUploadedFile(file);
@@ -58,6 +64,7 @@ export default function CallerIdUploadPage() {
 
         setUploadedFile(null);
         setManualCallerIds([]);
+        router.replace('/u/my-files')
         return;
       } else {
         throw new Error("Somethig went wrong");

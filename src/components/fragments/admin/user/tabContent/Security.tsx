@@ -1,8 +1,8 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
-import { User } from "@/utils/types";
+import { IUser } from "@/utils/types";
 
 const Security = ({
   user,
@@ -10,9 +10,11 @@ const Security = ({
   isEditing,
   handleSwitchChange,
 }: {
-  user: User;
+  user: IUser;
   handleInputChange: (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
   ) => void;
   isEditing: boolean;
   handleSwitchChange: (value: string) => void;
@@ -22,6 +24,7 @@ const Security = ({
       <div className="flex items-center space-x-2">
         <Switch
           id="verified"
+          name="isVerified"
           checked={user.isVerified}
           onCheckedChange={() => handleSwitchChange("isVerified")}
           disabled={!isEditing}
@@ -30,9 +33,23 @@ const Security = ({
       </div>
       <div className="flex items-center space-x-2">
         <Switch
+          id="verified"
+          name="isVerified"
+          checked={user.isBlocked}
+          onCheckedChange={() => handleSwitchChange("isBlocked")}
+          disabled={!isEditing}
+        />
+        <Label htmlFor="verified">Blocked</Label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <Switch
           id="admin"
           checked={user.role == "admin" ? true : false}
-          onCheckedChange={() => handleSwitchChange("isAdmin")}
+          onCheckedChange={(e) =>
+            e
+              ? handleInputChange({ target: { name: "role", value: "admin" } })
+              : handleInputChange({ target: { name: "role", value: "user" } })
+          }
           disabled={!isEditing}
         />
         <Label htmlFor="admin">Admin</Label>
@@ -42,7 +59,7 @@ const Security = ({
         <Input
           id="verifyCode"
           name="verifyCode"
-          value={user.verifyCode}
+          value={user.verifyCode || ""}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -52,7 +69,7 @@ const Security = ({
         <Input
           id="verifyCodeExpiry"
           name="verifyCodeExpiry"
-          value={user.verifyCodeExpiry}
+          value={new Date(user.verifyCodeExpiry).toDateString()}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -63,7 +80,7 @@ const Security = ({
           id="verifyCodeLimit"
           name="verifyCodeLimit"
           type="number"
-          value={user.verifyCodeLimit}
+          value={user.verifyCodeUsed}
           onChange={handleInputChange}
           disabled={!isEditing}
         />

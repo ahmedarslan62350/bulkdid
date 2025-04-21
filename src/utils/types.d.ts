@@ -2,11 +2,11 @@ import React from "react";
 
 export type UserForDataTable = {
   id: string;
-  username: string;
+  name: string;
   role: "user" | "admin";
   email: string;
   isVerified: boolean;
-  createAt: Date;
+  createdAt: Date;
 };
 
 export type TransactionForDataTable = {
@@ -102,6 +102,8 @@ export type DropdownItem = {
   children: React.ReactNode;
   props: null | undefined | number | string;
   type: string | number;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+  action?: Function;
 };
 
 export type SystemInfoRes = {
@@ -137,7 +139,7 @@ export interface Transaction {
 }
 
 export interface UserDetailsProps {
-  user: User;
+  user: IUser;
 }
 
 export interface Transaction {
@@ -177,7 +179,7 @@ export interface FileUploadProps {
   onFileUpload: (file: File) => void;
   setRoleValue: (value: "both" | "fetching" | "checking") => void;
   roleValue: "both" | "fetching" | "checking";
-  user: IUser;
+  user?: IUser | null;
 }
 
 export interface ManualInputProps {
@@ -263,18 +265,25 @@ export interface IBankendError {
   response: { data: { message: string } };
 }
 
-export interface IUser {
+export interface IUser extends Document {
   _id: ObjectId;
   name: string;
   email: string;
+  password: string;
   role: "admin" | "user";
   walletId: ObjectId;
   store: ObjectId;
+  verifyCode: number;
+  verifyCodeExpiry: Date | number;
+  verifyCodeUsed: number;
   isVerified: boolean;
+  isBlocked: boolean;
   isAllowedToFetch: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   sessions: string[];
+  refreshToken: string;
+  loginAttempts: number;
 }
 
 export interface ILoginBody {
@@ -307,7 +316,8 @@ export interface IWallet {
   accountNumber: string;
   BAT: number;
   BBT: number;
-  transactions: ObjectId[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  transactions: any;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -334,4 +344,65 @@ export interface IBank {
   iconHeight: number;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface IStore {
+  _id: ObjectId;
+  name: string;
+  ownerId: ObjectId;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  files: any;
+  fetchRequests: number;
+  callerIdStores: ObjectId[];
+  callerIds: number;
+  agents: { ip: string; isAlowed: boolean }[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+
+export interface AppSettings {
+  ENV: string;
+  PORT: string;
+  SERVER_URL: string;
+  FRONTEND_URL: string;
+  WHATSAPP_SERVER_URL: string;
+  PM2_APP_NAME: string;
+  PM2_SCALE_CPU_USAGE: string;
+  APP_INSTANCES: string;
+  DATABASE_URL: string;
+  DATABASE_NAME: string;
+  JWT_TOKEN_SECRET: string;
+  JWT_REFRESH_TOKEN_EXPIRATION_TIME: string;
+  POINTS_PER_SECOND: string;
+  DURATION: string;
+  NODE_MAILER_USER: string;
+  NODE_MAILER_PASS: string;
+  ADMIN_EMAIL: string;
+  REDIS_HOST: string;
+  REDIS_PORT: string;
+  OPENAI_API_KEY: string;
+  GEOLOCATION_API_URL: string;
+  COST_PER_CALLERID_FETCH: string;
+  COST_PER_CALLERID_CHECK: string;
+  TIME_TO_UPDATE_LOG: string;
+  DEFAULT_BANK_ICON_WIDTH: string;
+  DEFAULT_BANK_ICON_HEIGHT: string;
+  IS_REGISTRATION_ENABLE: string;
+  PASSWORD_POLICY: string;
+  SESSION_TIMEOUT: string;
+  MAX_LOGIN_ATTEMPTS: string;
+  MAX_LOGIN_ATTEMPTS_TIMEOUT: string;
+  MAX_WITHDRAW: string;
+  MAX_DEPOSITS: string;
+  MAX_FILES: string;
+  TRANSACTION_FEE_IN_PERCENT: string;
+  DATA_RETENTION_PERIOD: string;
+  LOGS_PERCISTENT_FREQUENCY_IN_DAYS: string;
+  BACKUP_FQ: string;
+  CACHE_TTL_IN_SECONDS: string;
+  MAX_RETRIES_NOROMBO_RES: string;
+  NOROMBO_URL: string;
+  WHATSAPP_RECEPENT_NUMBER: string;
+  WHATSAPP_SERVICE_ENABLED: string;
 }

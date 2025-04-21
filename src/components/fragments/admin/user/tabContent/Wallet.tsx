@@ -1,17 +1,22 @@
+"use client";
+
 import React, { ChangeEvent } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { User } from "@/utils/types";
+import { IUser, IWallet } from "@/utils/types";
 
 const Wallet = ({
-  user,
   handleInputChange,
   isEditing,
+  wallet,
 }: {
-  user: User;
+  user: IUser;
   handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
   isEditing: boolean;
+  wallet: IWallet | undefined;
 }) => {
+  if (!wallet) return null;
+
   return (
     <div className="space-y-4">
       <div>
@@ -19,7 +24,7 @@ const Wallet = ({
         <Input
           id="balance"
           name="walletId.balance"
-          value={user.walletId.balance}
+          value={wallet.balance}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -29,7 +34,7 @@ const Wallet = ({
         <Input
           id="currency"
           name="walletId.currency"
-          value={user.walletId.currency}
+          value={"USD"}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -39,7 +44,7 @@ const Wallet = ({
         <Input
           id="totalWithdraw"
           name="walletId.totalWithdraw"
-          value={user.walletId.totalWithdraw}
+          value={wallet.withdraws}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -49,7 +54,7 @@ const Wallet = ({
         <Input
           id="totalDeposited"
           name="walletId.totalDeposited"
-          value={user.walletId.totalDeposited}
+          value={wallet.deposits}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -59,7 +64,7 @@ const Wallet = ({
         <Input
           id="lastWithdraw"
           name="walletId.lastWithdraw"
-          value={new Date(user.walletId.lastWithdraw).toLocaleDateString()}
+          value={new Date(wallet.updatedAt as Date).toLocaleDateString() || ""}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -69,7 +74,7 @@ const Wallet = ({
         <Input
           id="lastDeposited"
           name="walletId.lastDeposited"
-          value={new Date(user.walletId.lastDeposited).toLocaleDateString()}
+          value={new Date(wallet.updatedAt as Date).toLocaleDateString()}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -79,7 +84,7 @@ const Wallet = ({
         <Input
           id="totalBalanceCount"
           name="walletId.totalBalanceCount"
-          value={user.walletId.totalBalanceCount}
+          value={wallet.balance}
           onChange={handleInputChange}
           disabled={!isEditing}
         />
@@ -89,7 +94,7 @@ const Wallet = ({
         <Input
           id="transactionsCount"
           name="walletId.transactionsCount"
-          value={user.walletId.transactionsCount}
+          value={wallet.totalTransactions}
           onChange={handleInputChange}
           disabled={!isEditing}
         />

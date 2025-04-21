@@ -35,9 +35,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { IBankendError } from "@/utils/types";
-import { useAppDispatch } from "@/redux/hooks";
-import { updatePassword } from "@/redux/authSlice";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { updatePassword } from "@/redux/slices/authSlice";
 
 type PasswordFormValues = z.infer<typeof changePasswordFormSchema>;
 
@@ -76,15 +75,13 @@ const ChangePasswordDialogBox: React.FC<ChangePasswordDialogBoxProps> = ({
 
       router.replace("/auth/login");
     } catch (error: unknown) {
-      const err = error as IBankendError;
-
       toast({
         title: "Error",
-        description: err?.response?.data?.message || "Something went wrong!",
+        description: (error as string) || "Something went wrong!",
         variant: "destructive",
       });
 
-      console.error("Error Response:", err?.response);
+      console.error("Error Response:", error);
     } finally {
       setIsLoading(false);
     }

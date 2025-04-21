@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, MouseEvent, SetStateAction } from "react";
+import React, { Dispatch, MouseEvent, SetStateAction, useState } from "react";
 
 import { DataTable } from "@/components/fragments/admin/global/DataTable";
 import { dummyTransactions, transactionData1 } from "@/utils/dumyData";
@@ -16,6 +16,14 @@ import { useRouter } from "next/navigation";
 
 const TransactionTable = () => {
   const { replace } = useRouter();
+
+  const [isViewTransactionDialogBoxOpen, setIsViewTransactionDialogBoxOpen] =
+    useState(false);
+
+  const [
+    isDeleteTransactionDialogBoxOpen,
+    setIsDeleteTransactionDialogBoxOpen,
+  ] = useState(false);
 
   const handleDelete = (
     e: MouseEvent<HTMLButtonElement>,
@@ -52,6 +60,8 @@ const TransactionTable = () => {
       {
         children: (
           <DeleteLikeDialogBox
+            isOpen={isViewTransactionDialogBoxOpen}
+            setIsOpen={setIsViewTransactionDialogBoxOpen}
             desc="Are you sure and want to saw this transaction details"
             handleClick={handleViewDetails}
             title="View transaction"
@@ -71,6 +81,8 @@ const TransactionTable = () => {
       {
         children: (
           <DeleteLikeDialogBox
+            isOpen={isDeleteTransactionDialogBoxOpen}
+            setIsOpen={setIsDeleteTransactionDialogBoxOpen}
             desc="Are you sure and want to delete this transaction"
             handleClick={handleDelete}
             title="Delete transaction"

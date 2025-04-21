@@ -28,7 +28,6 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { loginSchema } from "@/schemas/login";
 import { useRouter } from "next/navigation";
-import { IBankendError } from "@/utils/types";
 import { loginUser } from "@/redux/slices/authSlice";
 import { useAppDispatch } from "@/redux/hooks/hooks";
 
@@ -50,18 +49,17 @@ export default function Login() {
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     setIsLoading(true);
     try {
-      await dispatch(loginUser(values)).unwrap();
+      const res = await dispatch(loginUser(values)).unwrap();
+      console.log(res);
       router.replace("/u/my-profile");
     } catch (error: unknown) {
-      const err = error as IBankendError;
-
       toast({
         title: "Error",
-        description: err?.response?.data?.message || "Something went wrong!",
+        description: (error as string) || "Something went wrong",
         variant: "destructive",
       });
 
-      console.error("Error Response:", err?.response);
+      console.error("Error Response:", error);
     } finally {
       setIsLoading(false);
     }

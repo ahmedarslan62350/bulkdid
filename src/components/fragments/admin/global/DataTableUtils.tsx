@@ -14,6 +14,7 @@ import React from "react";
 import {
   CloumnDefType,
   DropdownItem,
+  IUser,
   Row,
   TableDropdown,
   TableHeadings,
@@ -74,12 +75,9 @@ export const DataTableColumns = ({
           <div className="text-sm text-start w-full px-4">
             {heading.type && heading.type === "date" ? (
               <>
-                {(
-                  row.getValue<unknown>(heading.accessor) as Date
-                ).toDateString()}
-                {(
-                  row.getValue<unknown>(heading.accessor) as Date
-                ).toTimeString()}
+                {heading?.accessor
+                  ? new Date(row.getValue(heading.accessor)).toDateString()
+                  : "Unknown"}
               </>
             ) : (
               row.getValue(heading.accessor)
@@ -91,7 +89,8 @@ export const DataTableColumns = ({
     {
       id: "actions",
       enableHiding: false,
-      cell: () => {
+      cell: ({ row }) => {
+        const user = row.original as unknown as IUser; // Ensure CloumnDefType has _id property
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -103,8 +102,16 @@ export const DataTableColumns = ({
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
               {dropdownConfig.items?.map((item) => {
-                const { key, children } = item as DropdownItem;
-                return <div key={key}>{children}</div>;
+                const { key, children, action } = item as DropdownItem;
+
+                return (
+                  <div
+                    key={key}
+                    onClick={action ? () => action(user) : () => null} // Pass user._id to the action
+                  >
+                    {children}
+                  </div>
+                );
               })}
             </DropdownMenuContent>
           </DropdownMenu>

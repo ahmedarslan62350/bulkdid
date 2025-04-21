@@ -26,8 +26,11 @@ export function Chart({
   config: chartConfig;
   chartData: chartData[];
 }) {
-  const [activeChart, setActiveChart] =
-    React.useState<keyof typeof config.chartConfig>(config.chartEntries[0]);
+  const [activeChart, setActiveChart] = React.useState<
+    keyof typeof config.chartConfig
+  >(config.chartEntries[0]);
+
+  console.log(chartData);
 
   const total = React.useMemo(
     () =>
