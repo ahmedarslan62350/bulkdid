@@ -75,24 +75,37 @@ const ServicesTab = () => {
       </div>
       <div className="space-y-2">
         <Label htmlFor="email-service">Email Service Provider</Label>
-        <Select defaultValue="sendgrid">
+        <Select disabled defaultValue="gmail">
           <SelectTrigger id="email-service">
             <SelectValue placeholder="Select email service" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="sendgrid">SendGrid</SelectItem>
             <SelectItem value="mailchimp">Mailchimp</SelectItem>
+            <SelectItem value="gmail">Gmail</SelectItem>
             <SelectItem value="aws-ses">AWS SES</SelectItem>
           </SelectContent>
         </Select>
       </div>
       <div className="space-y-2">
         <Label htmlFor="file-processing-threads">File Processing Threads</Label>
-        <Input type="number" id="file-processing-threads" defaultValue={4} />
+        <Input
+          type="number"
+          id="file-processing-threads"
+          disabled
+          defaultValue={1}
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="cache-ttl">Cache TTL (seconds)</Label>
-        <Input type="number" id="cache-ttl" defaultValue={3600} />
+        <Input
+          type="number"
+          id="cache-ttl"
+          defaultValue={Number(settings.CACHE_TTL_IN_SECONDS)}
+          onChange={(e) =>
+            handleUpdateSettings("CACHE_TTL_IN_SECONDS", e.target.value)
+          }
+        />
       </div>
     </CardContent>
   );

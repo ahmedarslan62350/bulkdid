@@ -1,3 +1,5 @@
+"use client";
+
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,17 +11,35 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
+import { useEffect } from "react";
+import { AppDispatch, RootState } from "@/redux/combinedStores";
+import { getAdminSettings, updateSettings } from "@/redux/slices/adminSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const SystemTab = () => {
+  const settings = useSelector((state: RootState) => state.admin.settings);
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!settings) {
+      dispatch(getAdminSettings());
+    }
+  }, [dispatch, settings]);
+
+  const handleUpdateSettings = (key: string, value: string) => {
+    dispatch(updateSettings({ key, value }));
+  };
+
   return (
     <CardContent className="space-y-4">
       <div className="flex items-center gap-2">
         <Label htmlFor="maintenance-mode">Maintenance Mode</Label>
-        <Switch id="maintenance-mode" />
+        <Switch disabled id="maintenance-mode" />
       </div>
       <div className="space-y-2">
         <Label htmlFor="log-level">Log Level</Label>
-        <Select defaultValue="info">
+        <Select disabled defaultValue="info">
           <SelectTrigger id="log-level">
             <SelectValue placeholder="Select log level" />
           </SelectTrigger>
@@ -32,8 +52,15 @@ const SystemTab = () => {
         </Select>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="api-rate-limit">API Rate Limit (requests/minute)</Label>
-        <Input type="number" id="api-rate-limit" defaultValue={1000} />
+        <Label htmlFor="api-rate-limit">API Rate Limit (requests/second)</Label>
+        <Input
+          type="number"
+          id="api-rate-limit"
+          defaultValue={Number(settings?.POINTS_PER_SECOND)}
+          onChange={(e) =>
+            handleUpdateSettings("POINTS_PER_SECOND", e.target.value)
+          }
+        />
       </div>
       <div className="space-y-2">
         <Label htmlFor="timezone">System Timezone</Label>
@@ -43,9 +70,6 @@ const SystemTab = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="utc">UTC</SelectItem>
-            <SelectItem value="est">Eastern Time (ET)</SelectItem>
-            <SelectItem value="pst">Pacific Time (PT)</SelectItem>
-            <SelectItem value="cet">Central European Time (CET)</SelectItem>
           </SelectContent>
         </Select>
       </div>

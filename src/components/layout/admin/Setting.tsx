@@ -1,24 +1,53 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 import SettingsTabs from "@/components/fragments/admin/settings/SettingsTabs";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/combinedStores";
+import { getAdminSettings } from "@/redux/slices/adminSlice";
+import { IBankendError } from "@/utils/types";
+import axiosInstance from "@/lib/axiosInstance";
+import { ENV } from "@/config/env";
 
 export default function SettingsPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
+  const settings = useSelector((state: RootState) => state.admin.settings);
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (!settings) {
+      dispatch(getAdminSettings());
+    }
+  }, [dispatch, settings]);
+
   const handleSave = async () => {
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsLoading(false);
-    toast({
-      title: "Settings saved",
-      description: "Your settings have been saved successfully.",
-      action: <ToastAction altText="Goto settings">Undo</ToastAction>,
-    });
+    try {
+      if (settings) {
+        const { data } = await axiosInstance.post(
+          `${ENV.BACKEND_URL}/admin/change-env-variable`,
+          { settings }
+        );
+
+        toast({
+          title: "Success",
+          description: data.message,
+        });
+      }
+    } catch (error: unknown) {
+      const err = error as IBankendError;
+      toast({
+        title: "Error",
+        variant: "destructive",
+        description: err.response.data.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

@@ -23,7 +23,7 @@ export function CustomDialogBox({
   cancelFunction,
 }: {
   isOpen: boolean;
-  isFile: boolean;
+  isFile?: boolean;
   setIsOpen: (open: boolean) => void;
   title?: string;
   selectedFile?: IFile | null;

@@ -19,11 +19,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const UserTab = () => {
   const [isOpen, setIsOpen] = useState(false);
+  
   const settings = useSelector((state: RootState) => state.admin.settings);
-
-  const [isRegistrationEnabled, setIsRegistrationEnabled] = useState(
-    settings?.IS_REGISTRATION_ENABLE === "true"
-  );
+  const [isRegistrationEnabled, setIsRegistrationEnabled] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -36,6 +34,12 @@ const UserTab = () => {
   const handleUpdateSettings = (key: string, value: string) => {
     dispatch(updateSettings({ key, value }));
   };
+
+  useEffect(() => {
+    if (settings) {
+      setIsRegistrationEnabled(settings.IS_REGISTRATION_ENABLE === "true");
+    }
+  }, [settings]);
 
   if (!settings) return <p>Loading...</p>;
 
