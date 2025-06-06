@@ -103,7 +103,7 @@ const page = () => {
                     <span className="font-semibold text-base mr-2">
                       Total files:
                     </span>{" "}
-                    {store.files}
+                    {store.files.length}
                   </h4>
                   <h4 className="text-sm text-primary">
                     <span className="font-semibold text-base mr-2">
@@ -116,6 +116,12 @@ const page = () => {
                       Total agents:
                     </span>{" "}
                     {store.agents.length}
+                  </h4>
+                  <h4 className="text-sm text-primary">
+                    <span className="font-semibold text-base mr-2">
+                      Fetch Requests:
+                    </span>{" "}
+                    {store.fetchRequests}
                   </h4>
                   <h4 className="text-sm text-primary">
                     <span className="font-semibold text-base mr-2">
@@ -148,7 +154,10 @@ const page = () => {
                 <div className="w-full gap-2 flex flex-col p-5 pl-0">
                   {store.agents.length > 0 ? (
                     store.agents.map((agent) => (
-                      <div key={agent.ip} className="w-full gap-2 flex items-center justify-between border border-gray-300 rounded py-2 px-5">
+                      <div
+                        key={agent.ip}
+                        className="w-full gap-2 flex items-center justify-between border border-gray-300 rounded py-2 px-5"
+                      >
                         <h4 className="text-sm text-primary">
                           <span className="font-semibold text-base mr-2">
                             IP Address:
