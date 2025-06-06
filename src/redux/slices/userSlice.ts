@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { ENV } from "@/config/env";
 import { IBankendError, IStore } from "@/utils/types";
 import axiosInstance from "@/lib/axiosInstance";
@@ -56,11 +56,11 @@ export const getTransactions = createAsyncThunk(
 );
 
 export const getUserStore = createAsyncThunk(
-  "admin/get-user-store",
+  "user/get-user-store",
   async (userId, { rejectWithValue }) => {
     try {
       const { data } = await axiosInstance.post(
-        `${ENV.BACKEND_URL}/admin/get-user-store`,
+        `${ENV.BACKEND_URL}/user-store/details`,
         {
           userId,
         }
@@ -102,7 +102,20 @@ const userSlice = createSlice({
     loading: false,
     userStore: null as IStore | null,
   },
-  reducers: {},
+  reducers: {
+    updateUserAgents: (
+      state,
+      payload: PayloadAction<{ ip: string; isAllowed: boolean }>
+    ) => {
+      if (state.userStore) {
+        state.userStore.agents = state.userStore.agents.map((agent) =>
+          agent.ip === payload.payload.ip
+            ? { ...agent, isAlowed: payload.payload.isAllowed }
+            : agent
+        );
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getFiles.pending, (state) => {
@@ -140,4 +153,5 @@ const userSlice = createSlice({
   },
 });
 
+export const { updateUserAgents } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
+import { ENV } from "./env";
 
-const uri = process.env.MONGODB_URI;
+const uri = ENV.MONGODB_URI;
 
 if (!uri) {
   throw new Error("Please define the MONGODB_URI environment variable.");

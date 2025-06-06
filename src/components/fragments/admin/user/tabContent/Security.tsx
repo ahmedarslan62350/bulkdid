@@ -54,6 +54,16 @@ const Security = ({
         />
         <Label htmlFor="admin">Admin</Label>
       </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="isAllowedToFetch"
+          name="isAllowedToFetch"
+          checked={user.isAllowedToFetch}
+          onCheckedChange={() => handleSwitchChange("isAllowedToFetch")}
+          disabled={!isEditing}
+        />
+        <Label htmlFor="isAllowedToFetch">isAllowedToFetch</Label>
+      </div>
       <div>
         <Label htmlFor="verifyCode">Verify Code</Label>
         <Input

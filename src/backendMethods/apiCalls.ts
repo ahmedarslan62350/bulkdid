@@ -7,23 +7,36 @@ import axios from "axios";
 import { z } from "zod";
 
 export async function login(values: z.infer<typeof loginSchema>) {
-  const { data } = await axios.post(ENV.BACKEND_URL + "/auth/login", values);
+  const { data } = await axios.post(ENV.BACKEND_URL + "/auth/login", values, {
+    withCredentials: true,
+  });
   return data;
 }
 
 export async function logout() {
-  const { data } = await axios.post(ENV.BACKEND_URL + "/auth/logout");
+  const { data } = await axios.post(ENV.BACKEND_URL + "/auth/logout", {
+    withCredentials: true,
+  });
   return data;
 }
 
 export async function register(values: z.infer<typeof registerSchema>) {
-  const { data } = await axios.post(ENV.BACKEND_URL + "/auth/register", values);
+  const { data } = await axios.post(
+    ENV.BACKEND_URL + "/auth/register",
+    values,
+    {
+      withCredentials: true,
+    }
+  );
   return data;
 }
 
 export async function verify(values: z.infer<typeof verifySchema>) {
   const { data } = await axios.post(
-    ENV.BACKEND_URL + `/auth/verify?verifyCode=${values.otp}`
+    ENV.BACKEND_URL + `/auth/verify?verifyCode=${values.otp}`,
+    {
+      withCredentials: true,
+    }
   );
   return data;
 }
@@ -34,7 +47,7 @@ export async function downloadFile(fileId: string) {
     {
       fileId,
     },
-    { responseType: "blob" }
+    { responseType: "blob", withCredentials: true }
   );
   return data;
 }
@@ -47,6 +60,7 @@ export async function uploadFile(formData: FormData) {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     }
   );
   return data;
@@ -57,13 +71,18 @@ export async function changePassowrd(
 ) {
   const { data } = await axios.post(
     ENV.BACKEND_URL + `/auth/update-password`,
-    values
+    values,
+    {
+      withCredentials: true,
+    }
   );
   return data;
 }
 
 export async function getBanks() {
-  const { data } = await axios.post(ENV.BACKEND_URL + `/bank/get-banks`);
+  const { data } = await axios.post(ENV.BACKEND_URL + `/bank/get-banks`, {
+    withCredentials: true,
+  });
   return data;
 }
 
@@ -75,6 +94,7 @@ export async function reqTransaction(formData: FormData) {
       headers: {
         "Content-Type": "multipart/form-data",
       },
+      withCredentials: true,
     }
   );
   return data;

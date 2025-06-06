@@ -14,7 +14,7 @@ export function WalletBalance({ balance, currency }: WalletBalanceProps) {
         <Wallet className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{balance.toFixed(2)} {currency}</div>
+        <div className="text-2xl font-bold">{Number(balance)?.toFixed(2)} {currency}</div>
         <p className="text-xs text-muted-foreground">+20.1% from last month</p>
       </CardContent>
     </Card>
