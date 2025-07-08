@@ -19,7 +19,7 @@ const UserPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const wallets = useSelector((state: RootState) => state.admin.wallets);
 
   useEffect(() => {
-    const foundUser = users.find((e) => e._id === id);
+    const foundUser = users.find((e:IUser) => e._id === id);
     const userWallet = wallets.find(
       (wallet: IWallet) => wallet.ownerId === user?._id
     );
